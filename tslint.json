@@ -1,0 +1,34 @@
+{
+    "rulesDirectory": [
+        "src"
+    ],
+    "rules": {
+        "max-line-length": {
+            "options": [
+                90
+            ]
+        },
+        "quotemark": [
+            "single",
+            "avoid-template"
+        ],
+        "no-console": [
+            true,
+            "log",
+            "warning"
+        ],
+        "no-var-keyword": true,
+        "switch-default": true,
+        "indent": [
+            true,
+            "tabs"
+        ]
+    },
+    "jsRules": {
+        "max-line-length": {
+            "options": [
+                90
+            ]
+        }
+    }
+}
