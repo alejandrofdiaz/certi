@@ -1,3 +1,5 @@
+import './content/styles/main.scss';
+import './common/ui';
 import Vue from 'vue';
 new Vue({
 	el: '#app',

@@ -1,18 +1,25 @@
 const path = require('path'),
 	webpack = require('webpack'),
 	HtmlWebpackPlugin = require('html-webpack-plugin'),
+	ExtractTextPlugin = require('extract-text-webpack-plugin'),
 	CopyWebpackPlugin = require('copy-webpack-plugin'),
 	basePath = __dirname;
 
 module.exports = {
 	resolve: {
-		extensions: ['.js', '.ts', '.tsx']
+		extensions: ['.js', '.ts', '.tsx'],
+		alias: {
+			bulma: path.resolve(__dirname, 'node_modules/bulma/')
+		}
 	},
 	entry: {
 		app: './src/index.tsx',
 		vendor: [
 			'babel-polyfill',
 			'axios'
+		],
+		style: [
+			'./node_modules/font-awesome/scss/font-awesome.scss'
 		]
 	},
 	output: {
@@ -40,6 +47,35 @@ module.exports = {
 					loader: 'tslint-loader'
 				}
 				]
+			},
+			{
+				test: /\.(scss|sass)$/,
+				loader: ExtractTextPlugin.extract({
+					fallback: 'style-loader',
+					use: [
+						{
+							loader: 'css-loader',
+							options: {
+								modules: false,
+								sourceMap: true
+							}
+						},
+						{
+							loader: 'sass-loader',
+							options: {
+								sourceMap: true
+							}
+						}
+					]
+				})
+			},
+			{
+				test: /\.(woff2?|svg|png)$/,
+				loader: 'url-loader?limit=10000'
+			},
+			{
+				test: /\.(ttf|eot)$/,
+				loader: 'file-loader'
 			}]
 	},
 	devtool: 'inline-source-map',
@@ -64,6 +100,11 @@ module.exports = {
 		new CopyWebpackPlugin([{
 			from: 'src/assets',
 			to: 'assets'
-		}])
+		}]),
+		new ExtractTextPlugin({
+			filename: '[chunkhash].[name].css',
+			disable: false,
+			allChunks: true
+		})
 	],
 }
