@@ -1,0 +1,5 @@
+.direction-form{
+	&__label{flex-grow: 0;}
+	&__address.field{flex-grow: 5 !important;}
+	&__number.field{flex-grow: 0 !important;}
+}
