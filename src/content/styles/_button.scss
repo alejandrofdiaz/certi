@@ -1,0 +1,5 @@
+.button{
+	&:focus:not(:active){
+		box-shadow: 0 0 0 0.125em rgba(0, 209, 178, 0);
+	}
+}
