@@ -95,6 +95,11 @@ module.exports = {
 		new webpack.ProvidePlugin({
 			axios: 'axios'
 		}),
+		new webpack.DefinePlugin({
+			'process.env': {
+				'GOOGLE_API_KEY': JSON.stringify('AIzaSyCK4elKV3R6ynOFngczVc0-kiBeHd9uEbo')
+			}
+		}),
 		new webpack.optimize.CommonsChunkPlugin({
 			names: ['vendor', 'manifest']
 		}),
@@ -124,7 +129,7 @@ module.exports = {
 			// See "Definitions" section for more information. 
 			defaultSizes: 'parsed',
 			// Automatically open report in default browser 
-			openAnalyzer: true,
+			openAnalyzer: false,
 			// If `true`, Webpack Stats JSON file will be generated in bundles output directory 
 			generateStatsFile: false,
 			// Name of Webpack Stats JSON file that will be generated if `generateStatsFile` is `true`. 
