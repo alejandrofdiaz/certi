@@ -27,9 +27,12 @@
     "bulma": "^0.5.2",
     "font-awesome": "^4.7.0",
     "jump.js": "^1.0.2",
+    "lodash": "^4.17.4",
     "vue": "^2.4.2"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.74",
+    "@types/node": "^8.0.28",
     "babel-core": "^6.26.0",
     "babel-helper-vue-jsx-merge-props": "^2.0.2",
     "babel-loader": "^7.1.2",
