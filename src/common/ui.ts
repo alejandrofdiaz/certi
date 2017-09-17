@@ -1,3 +1,5 @@
+import jump from 'jump.js';
+
 //Hamburger menus
 document.addEventListener('DOMContentLoaded', function () {
 	// Get all "navbar-burger" elements
@@ -19,4 +21,21 @@ document.addEventListener('DOMContentLoaded', function () {
 			});
 		});
 	}
+
+	/**
+	 * SmoothScroll script
+	 */
+
+	const INIT_LINK = 'init_form', ADDRESS_FROM = 'address_form';
+
+
+	const initButton: HTMLElement = document.getElementById(INIT_LINK),
+		addresForm: HTMLElement = document.getElementById(ADDRESS_FROM);
+	initButton.addEventListener('click', () => {
+		jump(`#${ADDRESS_FROM}`);
+		// addresForm
+		// 	.scrollIntoView({
+		// 		behavior: 'smooth'
+		// 	});
+	})
 });
