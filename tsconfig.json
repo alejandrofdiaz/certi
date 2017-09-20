@@ -1,14 +1,9 @@
 // tsconfig.json
 {
 	"compilerOptions": {
-		"allowSyntheticDefaultImports": true,
-		"lib": [
-			"dom",
-			"es5",
-			"es2015.promise"
-		],
 		"jsx": "preserve",
-		"module": "es2015",
+		"target": "es6",
+		"module": "es6",
 		"moduleResolution": "node",
 		"typeRoots": [
 			"./node_modules/@types"

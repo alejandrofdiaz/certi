@@ -1,12 +1,4 @@
-import './content/styles/main.scss';
-import './common/ui';
-import Vue from 'vue';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 
-import './api/maps';
-
-new Vue({
-	el: '#app',
-	render(h) {
-		return (<h1>Hello world</h1>)
-	}
-})
+ReactDOM.render(<p>Hola!</p>, document.getElementById('app'));

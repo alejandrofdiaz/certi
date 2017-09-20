@@ -16,10 +16,13 @@ module.exports = {
 	entry: {
 		app: './src/index.tsx',
 		vendor: [
+			'react',
+			'react-dom',
 			'babel-polyfill',
 			'axios'
 		],
 		style: [
+			'./src/styles',
 			'./node_modules/font-awesome/scss/font-awesome.scss'
 		]
 	},
