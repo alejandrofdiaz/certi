@@ -31,12 +31,19 @@
 		</div>
 		<div class="navbar-menu"
 		     id="navMenu">
-			<a class="navbar-item">Info</a>
-			<a class="navbar-item">Datos</a>
-			<a class="navbar-item">Contacto</a>
+			<a class="navbar-item"
+			   id="info_link"
+			   data-target="info">Info</a>
+			<a class="navbar-item"
+			   id="data_link"
+			   data-target="address_form">Datos</a>
+			<a class="navbar-item"
+			   id="contact_link"
+			   data-target="contact">Contacto</a>
 		</div>
 	</nav>
-	<section class="hero is-primary is-fullheight">
+	<section id="info"
+	         class="hero is-primary is-fullheight">
 		<div class="hero--parallax hero-background-image--main"></div>
 		<div class="hero-body">
 			<div class="container">
@@ -135,7 +142,8 @@
 			Esto es una prueba
 		</div>
 	</div>
-	<section class="hero is-dark is-medium">
+	<section id="contact"
+	         class="hero is-dark is-medium">
 		<div class="hero--parallax hero-background-image--contact"></div>
 		<div class="hero-body">
 			<div class="container has-text-centered">

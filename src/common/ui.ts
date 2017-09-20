@@ -26,16 +26,23 @@ document.addEventListener('DOMContentLoaded', function () {
 	 * SmoothScroll script
 	 */
 
-	const INIT_LINK = 'init_form', ADDRESS_FROM = 'address_form';
+	const _links =
+		Array.prototype.slice.call(document.querySelectorAll('.navbar-item'), 0);
 
+	if (_links.length > 0) {
+		_links.forEach((el) => {
+			el.addEventListener('click', () => {
+				jump(`#${el.dataset.target}`)
+			})
+		})
+	}
 
-	const initButton: HTMLElement = document.getElementById(INIT_LINK),
-		addresForm: HTMLElement = document.getElementById(ADDRESS_FROM);
-	initButton.addEventListener('click', () => {
-		jump(`#${ADDRESS_FROM}`);
-		// addresForm
-		// 	.scrollIntoView({
-		// 		behavior: 'smooth'
-		// 	});
-	})
+	/**
+	 * Init Button
+	 */
+	const INIT_LINK = 'init_form',
+		ADDRESS_FROM = 'address_form',
+		initButton: HTMLElement = document.getElementById(INIT_LINK);
+
+	initButton.addEventListener('click', () => { jump(`#${ADDRESS_FROM}`) })
 });
