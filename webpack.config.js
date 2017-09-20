@@ -71,7 +71,7 @@ module.exports = {
 				})
 			},
 			{
-				test: /\.(woff2?|svg|png|jpg)$/,
+				test: /\.(woff2?|svg|png|jpe?g)$/,
 				loader: 'url-loader?limit=10000'
 			},
 			{
