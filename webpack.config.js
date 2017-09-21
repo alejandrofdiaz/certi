@@ -8,7 +8,7 @@ const path = require('path'),
 
 module.exports = {
 	resolve: {
-		extensions: ['.js', '.ts', '.tsx'],
+		extensions: ['.js', '.ts', '.tsx', '.css'],
 		alias: {
 			bulma: path.resolve(__dirname, 'node_modules/bulma/')
 		}
@@ -51,6 +51,21 @@ module.exports = {
 					loader: 'tslint-loader'
 				}
 				]
+			},
+			{
+				test: /\.css$/,
+				loader: ExtractTextPlugin.extract({
+					fallback: 'style-loader',
+					use: [
+						{
+							loader: 'css-loader',
+							options: {
+								modules: false,
+								sourceMap: true
+							}
+						}
+					]
+				})
 			},
 			{
 				test: /\.(scss|sass)$/,
