@@ -28,9 +28,9 @@
     "font-awesome": "^4.7.0",
     "jump.js": "^1.0.2",
     "lodash": "^4.17.4",
-    "react": "^15.6.1",
+    "react": "^16.0.0",
     "react-autosuggest": "^9.3.2",
-    "react-dom": "^15.6.1"
+    "react-dom": "^16.0.0"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.74",
