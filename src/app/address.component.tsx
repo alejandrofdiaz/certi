@@ -1,22 +1,6 @@
 import * as React from 'react';
-import Autosuggest from 'react-autosuggest';
+import { MunicipioSuggestion } from './municipio.field';
 
-const AutosuggestTheme = {
-	container: 'react-autosuggest__container',
-	containerOpen: 'react-autosuggest__container--open',
-	input: 'input',
-	inputOpen: 'react-autosuggest__input--open',
-	inputFocused: 'react-autosuggest__input--focused',
-	suggestionsContainer: 'react-autosuggest__suggestions-container',
-	suggestionsContainerOpen: 'react-autosuggest__suggestions-container--open',
-	suggestionsList: 'react-autosuggest__suggestions-list',
-	suggestion: 'react-autosuggest__suggestion',
-	suggestionFirst: 'react-autosuggest__suggestion--first',
-	suggestionHighlighted: 'react-autosuggest__suggestion--highlighted',
-	sectionContainer: 'react-autosuggest__section-container',
-	sectionContainerFirst: 'react-autosuggest__section-container--first',
-	sectionTitle: 'react-autosuggest__section-title'
-}
 interface Props {
 
 }
@@ -69,23 +53,7 @@ export default class AddressForm extends React.Component<Props, State>{
 					<div className='field-body'>
 						<div className='field'>
 							<div className='control'>
-								<Autosuggest
-									suggestions={source}
-									inputProps={{
-										placeholder: 'Comunidad autónoma',
-										value: this.state.comunidadField.value
-									}}
-									theme={AutosuggestTheme}
-								/>
-								{/* <Select
-									className='input'
-									autosize={false}
-									name='form-field-name'
-									placeholder='Comunidad autónoma'
-									value={this.state.comunidadField}
-									options={source}
-									onChange={(e) => console.log}
-								/> */}
+								<MunicipioSuggestion />
 							</div>
 						</div>
 						<div className='field'>
@@ -100,7 +68,6 @@ export default class AddressForm extends React.Component<Props, State>{
 						</div>
 					</div>
 				</div>
-
 				<div className='field'>
 					<label className='label is-large'>Municipio</label>
 					<div className='control has-icons-left has-icons-right'>
@@ -150,7 +117,13 @@ export default class AddressForm extends React.Component<Props, State>{
 
 
 
-const source = [
-	{ value: 'one', label: 'One' },
-	{ value: 'two', label: 'Two' }
-]
+const languages = [
+	{
+		name: 'C',
+		year: 1972
+	},
+	{
+		name: 'Elm',
+		year: 2012
+	},
+];

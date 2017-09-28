@@ -115,7 +115,8 @@ module.exports = {
 		}),
 		new webpack.DefinePlugin({
 			'process.env': {
-				'GOOGLE_API_KEY': JSON.stringify('AIzaSyCK4elKV3R6ynOFngczVc0-kiBeHd9uEbo')
+				'GOOGLE_API_KEY': JSON.stringify('AIzaSyCK4elKV3R6ynOFngczVc0-kiBeHd9uEbo'),
+				'GOOGLE_API_KEY_JS': JSON.stringify('AIzaSyBiDTXRbCfxsXB2aYUDZ5PQ8d0_oTR0ScM')
 			}
 		}),
 		new webpack.optimize.CommonsChunkPlugin({

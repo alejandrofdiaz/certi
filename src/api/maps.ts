@@ -52,3 +52,4 @@ export const getStaticSituation: Function =
 				'key=' + API_KEY
 			].join('&');
 	}
+
