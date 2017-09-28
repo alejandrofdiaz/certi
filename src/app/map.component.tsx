@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { suckDataFromGooglePlace } from '../api/maps';
 
 interface theme {
 	root: string;
@@ -94,6 +95,8 @@ export class Map extends React.Component<{}, State>{
 			marker.addListener('click', function () {
 				infoWindow.open(this.map, marker);
 			});
+
+			console.log(suckDataFromGooglePlace(place));
 		}
 	}
 

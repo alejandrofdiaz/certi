@@ -1,4 +1,5 @@
 import { isString } from 'lodash';
+import { LocationExchange } from '../model/location.model';
 
 interface CoordinatesS {
 	lat: number;
@@ -53,3 +54,39 @@ export const getStaticSituation: Function =
 			].join('&');
 	}
 
+export const suckDataFromGooglePlace =
+	(place: google.maps.places.PlaceResult): LocationExchange => {
+		let ExchangeObject: LocationExchange = new LocationExchange();
+		place.address_components
+			.forEach(component => {
+				component.types
+					.forEach(type => {
+						switch (type) {
+							case 'street_number':
+								ExchangeObject.number = component.long_name;
+								break;
+							case 'route':
+								ExchangeObject.route = component.long_name;
+								break;
+							case 'locality':
+								ExchangeObject.locality = component.long_name;
+								break;
+							case 'administrative_area_level_2':
+								ExchangeObject.province = component.long_name;
+								break;
+							case 'administrative_area_level_1':
+								ExchangeObject.state = component.long_name;
+								break;
+							case 'country':
+								ExchangeObject.country = component.long_name;
+								break;
+							case 'postal_code':
+								ExchangeObject.postal_code = component.long_name;
+								break;
+							default:
+								break;
+						}
+					})
+			});
+		return ExchangeObject;
+	}
