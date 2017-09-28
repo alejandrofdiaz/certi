@@ -14,9 +14,9 @@ interface State {
 }
 
 export class Map extends React.Component<{}, State>{
-	map: any;
-	autocomplete: any;
-	markers: any[];
+	map: google.maps.Map;
+	autocomplete: google.maps.places.Autocomplete;
+	markers: google.maps.Marker[];
 	theme: theme;
 	refs: {
 		map: any;
@@ -41,7 +41,8 @@ export class Map extends React.Component<{}, State>{
 	}
 
 	componentDidMount() {
-		const twinpizza = new google.maps.LatLng(40.421223, -3.702151);
+		const twinpizza: google.maps.LatLng =
+			new google.maps.LatLng(40.421223, -3.702151);
 		this.map = new google.maps.Map(this.refs.map, {
 			zoom: 6,
 			center: twinpizza
@@ -52,7 +53,6 @@ export class Map extends React.Component<{}, State>{
 		)
 
 		this.autocomplete.addListener('place_changed', this.fillInAddress.bind(this));
-
 	}
 
 	updateAddress(Event) {
