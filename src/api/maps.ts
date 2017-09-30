@@ -18,6 +18,7 @@ interface GoogleStaticApiParams {
 	center?: string;
 }
 
+
 const GoogleStaticDefaultParams: GoogleStaticApiParams = {
 	zoom: 15,
 	scale: 2,
@@ -28,7 +29,53 @@ const GoogleStaticDefaultParams: GoogleStaticApiParams = {
 	language: 'es'
 }
 
-export const getStaticSituation: Function =
+interface StreetStaticApiParams {
+	fov?: number; //1 más cerca - 120 más lejos 
+	pitch?: number; //-90 a 90
+	height?: number; //640 max
+	width?: number; //640 max
+	format?: string;
+	location?: string;
+}
+
+const StreetViewStaticDefaultParams: StreetStaticApiParams = {
+	height: 640,
+	width: 640,
+	format: 'jpg',
+	fov: 120,
+	pitch: 0
+}
+
+export const getStreetViewStatic =
+	(location: string | google.maps.LatLng, params: StreetStaticApiParams): string => {
+		const
+			STATIC_API_URL: string = 'https://maps.googleapis.com/maps/api/streetview?',
+			API_KEY: string = process.env.GOOGLE_API_KEY_STREET_VIEW,
+			_params: StreetStaticApiParams = {
+				height: params.height && params.height < 640 ? params.height : 640,
+				width: params.width && params.width < 640 ? params.width : 640,
+				format: params.format || 'jpg',
+				fov: params.fov && params.fov > 0 ? params.fov : 120, //Máxima apertura
+				pitch: params.pitch && params.pitch > -90 && params.pitch < 90 ? params.pitch : 0
+			};
+
+		if (isString(location)) {
+			_params.location = location;
+		} else {
+			_params.location = `${String(location.lat)},${String(location.lng)}`;
+		}
+		return STATIC_API_URL +
+			[
+				'location=' + encodeURI(_params.location),
+				'size=' + String(_params.width) + 'x' + String(_params.height),
+				'format=' + _params.format,
+				'fov=' + String(_params.fov),
+				'pitch=' + String(_params.pitch),
+				'key=' + API_KEY
+			].join('&');
+	}
+
+export const getStaticSituation =
 	(location: string | google.maps.LatLng, params: GoogleStaticApiParams): string => {
 		const
 			STATIC_API_URL: string = 'https://maps.googleapis.com/maps/api/staticmap?',
@@ -108,19 +155,23 @@ export const goggleImageAsALink
 	= (place: LocationExchange) => {
 		const url = getStaticSituation(place.formatted_address, GoogleStaticDefaultParams);
 		return new Promise((resolve, reject) => {
-			axios
-				.get(url, { responseType: 'arraybuffer' })
-				.then((response) => {
-					resolve(
-					`<a href="${_imageEncode(response.data, response.headers['content-type'])}" 		download="${place.formatted_address}_SIT.jpg" 
-						target="_blank" class="button is-primary">
-						<span class="icon is-small">
-						  <i class="fa fa-map-marker"></i>
-						</span>
-						<span>Mapa situación</span>						
-					  </a>
-						`);
-				});
+			interface GoogleStaticImagesCallback {
+				situation: string;
+				streetView: string;
+			}
+			axios.all([
+				axios.get(getStaticSituation(place.formatted_address, GoogleStaticDefaultParams),
+					{ responseType: 'arraybuffer' }),
+				axios.get(getStreetViewStatic(place.formatted_address, StreetViewStaticDefaultParams),
+					{ responseType: 'arraybuffer' }),
+			])
+				.then(axios.spread((situation, streetView) => {
+					const callback: GoogleStaticImagesCallback = {
+						situation: _imageEncode(situation.data, situation.headers['content-type']),
+						streetView: _imageEncode(streetView.data, streetView.headers['content-type']),
+					}
+					resolve(callback);
+				}));
 		})
 	}
 

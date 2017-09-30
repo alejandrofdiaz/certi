@@ -10,7 +10,7 @@ interface theme {
 }
 
 interface State {
-	place: any;
+	place: google.maps.places.PlaceResult;
 	address: string;
 }
 
@@ -37,7 +37,7 @@ export class Map extends React.Component<{}, State>{
 		}
 		this.state = {
 			address: '',
-			place: {}
+			place: null
 		}
 	}
 
@@ -67,7 +67,7 @@ export class Map extends React.Component<{}, State>{
 	}
 
 	fillInAddress() {
-		let place = this.autocomplete.getPlace();
+		let place: google.maps.places.PlaceResult = this.autocomplete.getPlace();
 
 		if (place.geometry) {
 			this.setState({ place });
@@ -79,11 +79,12 @@ export class Map extends React.Component<{}, State>{
 
 			goggleImageAsALink(suckDataFromGooglePlace(place))
 				.then(
-				(linkSituacion: string) => {
+				(googleStaticLinks: any) => {
 					let infoWindow = new google.maps.InfoWindow({
 						content: `
 						<div class="title is-6">${place.formatted_address}</div> 
-						${linkSituacion}`
+						${this.renderStatic(googleStaticLinks.situation)}
+						${this.renderStreetView(googleStaticLinks.streetView)}`
 					})
 
 					const marker = new google.maps.Marker({
@@ -104,6 +105,29 @@ export class Map extends React.Component<{}, State>{
 		}
 	}
 
+	private renderStatic(url: string) {
+		return (
+			`<a href="${url}" 
+				download="${this.state.place.formatted_address}_SIT.jpg" 
+				target="_blank" class="button is-primary">
+				<span class="icon is-small">
+		 			 <i class="fa fa-map-marker"></i>
+				</span>
+				<span>Mapa situación</span>						
+	 		 </a>`)
+	}
+
+	private renderStreetView(url: string) {
+		return (
+			`<a href="${url}" 
+				download="${this.state.place.formatted_address}_FACHADA.jpg" 
+				target="_blank" class="button is-info">
+				<span class="icon is-small">
+		 			 <i class="fa fa-camera"></i>
+				</span>
+				<span>Foto fachada</span>						
+	 		 </a>`)
+	}
 	render() {
 		return (
 			<section
