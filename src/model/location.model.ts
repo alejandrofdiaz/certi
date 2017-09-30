@@ -6,4 +6,6 @@ export class LocationExchange {
 	province: string;
 	route: string;
 	state: string;
+	formatted_address: string;
+	coordinates: google.maps.LatLng;
 }

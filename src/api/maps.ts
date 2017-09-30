@@ -1,5 +1,6 @@
 import { isString } from 'lodash';
 import { LocationExchange } from '../model/location.model';
+import axios from 'axios';
 
 interface CoordinatesS {
 	lat: number;
@@ -17,8 +18,18 @@ interface GoogleStaticApiParams {
 	center?: string;
 }
 
+const GoogleStaticDefaultParams: GoogleStaticApiParams = {
+	zoom: 15,
+	scale: 2,
+	height: 640,
+	width: 640,
+	format: 'jpg',
+	maptype: 'roadmap',
+	language: 'es'
+}
+
 export const getStaticSituation: Function =
-	(location: string | CoordinatesS, params: GoogleStaticApiParams): string => {
+	(location: string | google.maps.LatLng, params: GoogleStaticApiParams): string => {
 		const
 			STATIC_API_URL: string = 'https://maps.googleapis.com/maps/api/staticmap?',
 			API_KEY: string = process.env.GOOGLE_API_KEY,
@@ -35,7 +46,7 @@ export const getStaticSituation: Function =
 		if (isString(location)) {
 			_params.center = location;
 		} else {
-			_params.center = `${String(location.lat)},${String(location.long)}`;
+			_params.center = `${String(location.lat)},${String(location.lng)}`;
 		}
 		return STATIC_API_URL +
 			[
@@ -57,6 +68,8 @@ export const getStaticSituation: Function =
 export const suckDataFromGooglePlace =
 	(place: google.maps.places.PlaceResult): LocationExchange => {
 		let ExchangeObject: LocationExchange = new LocationExchange();
+		ExchangeObject.formatted_address = place.formatted_address;
+		ExchangeObject.coordinates = place.geometry.location;
 		place.address_components
 			.forEach(component => {
 				component.types
@@ -90,3 +103,31 @@ export const suckDataFromGooglePlace =
 			});
 		return ExchangeObject;
 	}
+
+export const goggleImageAsALink
+	= (place: LocationExchange) => {
+		const url = getStaticSituation(place.formatted_address, GoogleStaticDefaultParams);
+		return new Promise((resolve, reject) => {
+			axios
+				.get(url, { responseType: 'arraybuffer' })
+				.then((response) => {
+					resolve(
+					`<a href="${_imageEncode(response.data, response.headers['content-type'])}" 		download="${place.formatted_address}_SIT.jpg" 
+						target="_blank" class="button is-primary">
+						<span class="icon is-small">
+						  <i class="fa fa-map-marker"></i>
+						</span>
+						<span>Mapa situación</span>						
+					  </a>
+						`);
+				});
+		})
+	}
+
+const _imageEncode = (arrayBuffer: ArrayBuffer, mimetype: string) => {
+	let u8 = new Uint8Array(arrayBuffer),
+		b64encoded = btoa([].reduce.call(
+			new Uint8Array(arrayBuffer),
+			(p, c) => p + String.fromCharCode(c), ''))
+	return "data:" + mimetype + ";base64," + b64encoded
+}

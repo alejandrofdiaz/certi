@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { suckDataFromGooglePlace } from '../api/maps';
+import { suckDataFromGooglePlace, goggleImageAsALink } from '../api/maps';
 
 interface theme {
 	root: string;
@@ -77,26 +77,30 @@ export class Map extends React.Component<{}, State>{
 			);
 			this.map.setZoom(20);
 
-			let infoWindow = new google.maps.InfoWindow({
-				content: place.adr_address
-			})
+			goggleImageAsALink(suckDataFromGooglePlace(place))
+				.then(
+				(linkSituacion: string) => {
+					let infoWindow = new google.maps.InfoWindow({
+						content: `
+						<div class="title is-6">${place.formatted_address}</div> 
+						${linkSituacion}`
+					})
 
-			const marker = new google.maps.Marker({
-				map: this.map,
-				position: place.geometry.location,
-				title: 'Inmueble seleccionado!'
-			});
+					const marker = new google.maps.Marker({
+						map: this.map,
+						position: place.geometry.location,
+						title: 'Inmueble seleccionado!'
+					});
 
-			this.removeMarksFromMap(marker);
+					this.removeMarksFromMap(marker);
 
-			this.markers = [marker];
-			infoWindow.open(this.map, marker);
+					this.markers = [marker];
+					infoWindow.open(this.map, marker);
 
-			marker.addListener('click', function () {
-				infoWindow.open(this.map, marker);
-			});
-
-			console.log(suckDataFromGooglePlace(place));
+					marker.addListener('click', function () {
+						infoWindow.open(this.map, marker);
+					});
+				})
 		}
 	}
 
