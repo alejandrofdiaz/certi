@@ -50,7 +50,7 @@ export const getStreetViewStatic =
 	(location: string | google.maps.LatLng, params: StreetStaticApiParams): string => {
 		const
 			STATIC_API_URL: string = 'https://maps.googleapis.com/maps/api/streetview?',
-			API_KEY: string = process.env.GOOGLE_API_KEY_STREET_VIEW,
+			API_KEY: string = process.env.GOOGLE_API_KEY,
 			_params: StreetStaticApiParams = {
 				height: params.height && params.height < 640 ? params.height : 640,
 				width: params.width && params.width < 640 ? params.width : 640,

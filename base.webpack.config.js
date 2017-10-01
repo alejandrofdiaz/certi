@@ -53,42 +53,6 @@ module.exports = {
 				]
 			},
 			{
-				test: /\.css$/,
-				loader: ExtractTextPlugin.extract({
-					fallback: 'style-loader',
-					use: [
-						{
-							loader: 'css-loader',
-							options: {
-								modules: false,
-								sourceMap: true
-							}
-						}
-					]
-				})
-			},
-			{
-				test: /\.(scss|sass)$/,
-				loader: ExtractTextPlugin.extract({
-					fallback: 'style-loader',
-					use: [
-						{
-							loader: 'css-loader',
-							options: {
-								modules: false,
-								sourceMap: true
-							}
-						},
-						{
-							loader: 'sass-loader',
-							options: {
-								sourceMap: true
-							}
-						}
-					]
-				})
-			},
-			{
 				test: /\.(woff2?|svg|png|jpe?g)$/,
 				loader: 'url-loader?limit=10000'
 			},
@@ -107,21 +71,14 @@ module.exports = {
 	plugins: [
 		new HtmlWebpackPlugin({
 			filename: 'index.html', //Name of file in ./dist/
-			template: './src/index.html', //Name of template in ./src
+			template: './src/index.ejs', //Name of template in ./src
 			hash: true,
 		}),
 		new webpack.ProvidePlugin({
 			axios: 'axios'
-		}),		
-		new webpack.DefinePlugin({
-			'process.env': {
-				'GOOGLE_API_KEY': JSON.stringify('AIzaSyCK4elKV3R6ynOFngczVc0-kiBeHd9uEbo'),
-				'GOOGLE_API_KEY_JS': JSON.stringify('AIzaSyBiDTXRbCfxsXB2aYUDZ5PQ8d0_oTR0ScM'),
-				'GOOGLE_API_KEY_STREET_VIEW': JSON.stringify('AIzaSyDbtEXX5KAQWgVfRUoDFj5BOkPcUHt8j2w')
-			}
 		}),
 		new webpack.optimize.CommonsChunkPlugin({
-			names: ['vendor', 'manifest']
+			names: ['manifest', 'vendor', 'app'].reverse()
 		}),
 		new CopyWebpackPlugin([{
 			from: 'src/assets',
