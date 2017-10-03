@@ -1,7 +1,10 @@
 import * as React from 'react';
 import AddressForm from './address.component';
 import { Map } from './map.component';
+import { CatastroApiI } from '../api/catastro.api';
 
+
+CatastroApiI;
 interface AppState {
 
 }
@@ -26,3 +29,4 @@ export default class App extends React.Component<{}, AppState>{
 		)
 	}
 }
+
