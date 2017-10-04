@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { suckDataFromGooglePlace, goggleImageAsALink } from '../api/maps';
+import { _CaptchaApi } from '../api/captcha.api';
 
 interface theme {
 	root: string;
@@ -12,6 +13,7 @@ interface theme {
 interface State {
 	place: google.maps.places.PlaceResult;
 	address: string;
+	disableForm: boolean;
 }
 
 export class Map extends React.Component<{}, State>{
@@ -37,11 +39,29 @@ export class Map extends React.Component<{}, State>{
 		}
 		this.state = {
 			address: '',
-			place: null
+			place: null,
+			disableForm: true
 		}
 	}
 
 	componentDidMount() {
+		document.addEventListener('captchaSuccess', (event: any) => {
+			_CaptchaApi
+				.validate(event.detail.response)
+				.then(
+				response => {
+					if (response) {
+						this.enableForm();
+					} else {
+						this.enableForm();
+					}
+				}, (response) => { console.log(response) })
+		})
+
+		document.addEventListener('captchaExpired', () => {
+
+		})
+
 		const twinpizza: google.maps.LatLng =
 			new google.maps.LatLng(40.421223, -3.702151);
 		this.map = new google.maps.Map(this.refs.map, {
@@ -105,6 +125,14 @@ export class Map extends React.Component<{}, State>{
 		}
 	}
 
+	private disableForm = () => {
+		this.setState({ disableForm: true });
+	}
+
+	private enableForm = () => {
+		this.setState({ disableForm: false });
+	}
+
 	private renderStatic(url: string) {
 		return (
 			`<a href="${url}" 
@@ -138,12 +166,18 @@ export class Map extends React.Component<{}, State>{
 					className={[this.theme.container, this.theme.map].join(' ')}></div>
 				<div className={this.theme.input_wrapper}>
 					<input
+						disabled={this.state.disableForm}
 						ref='autocomplete_input'
 						type='text'
 						className={this.theme.input}
 						placeholder='Inserta tu dirección'
 						value={this.state.address}
 						onChange={this.updateAddress.bind(this)} />
+					<div key='recaptcha'
+						className="g-recaptcha"
+						data-sitekey={process.env.GOOGLE_CAPTCHA_KEY}
+						data-callback='captchaSuccess'
+						data-expired-callback='captchaExpired'></div>
 				</div>
 			</section>
 		)

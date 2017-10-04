@@ -11,6 +11,7 @@
 	      content="Certi">
 	<meta name="viewport"
 	      content="width=device-width, initial-scale=1">
+	<script src='https://www.google.com/recaptcha/api.js'></script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=<%= process.env.GOOGLE_API_KEY %>&libraries=places"></script>
 </head>
 
@@ -127,6 +128,16 @@
 			</div>
 		</div>
 	</footer>
+	<script>
+		function captchaSuccess(response) {
+			var captchaSuccess = new CustomEvent('captchaSuccess', { detail: { response: response } });
+			document.dispatchEvent(captchaSuccess)
+		}
+		function captchaExpired(a, b, c) {
+			var captchaExpired = new Event('captchaExpired');
+			document.dispatchEvent(captchaExpired)
+		}
+	</script>
 </body>
 
 </html>

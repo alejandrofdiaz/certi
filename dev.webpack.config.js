@@ -62,7 +62,8 @@ module.exports = () =>
 		plugins: [
 			new webpack.DefinePlugin({
 				'process.env': {
-					'GOOGLE_API_KEY': JSON.stringify('AIzaSyDbtEXX5KAQWgVfRUoDFj5BOkPcUHt8j2w')
+					'GOOGLE_API_KEY': JSON.stringify('AIzaSyDbtEXX5KAQWgVfRUoDFj5BOkPcUHt8j2w'),
+					'GOOGLE_CAPTCHA_KEY': JSON.stringify('6LcXNTMUAAAAAF6VkfDnlA-K4RAPsg6e7vs_iWsg')
 				}
 			}),
 		]
