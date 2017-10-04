@@ -133,7 +133,9 @@ export class Map extends React.Component<{}, State>{
 			<section
 				id='address_form'
 				className={this.theme.root}>
-				<div ref='map' className={[this.theme.container, this.theme.map].join(' ')}></div>
+				<div ref='map'
+					key='map'
+					className={[this.theme.container, this.theme.map].join(' ')}></div>
 				<div className={this.theme.input_wrapper}>
 					<input
 						ref='autocomplete_input'

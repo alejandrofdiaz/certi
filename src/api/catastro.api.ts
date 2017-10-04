@@ -35,5 +35,3 @@ class CatastroApi {
 }
 
 export const CatastroApiI = new CatastroApi();
-
-CatastroApiI.getMunicipio('Madrid', '').then(response => { console.log(response) })
