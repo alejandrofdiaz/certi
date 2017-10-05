@@ -19,14 +19,8 @@ class CatastroApi {
 
 		return new Promise((resolve, reject) => {
 			axios
-				.post(
-				[this.BASE_URL, this.CONSULTA_MUNICIPIOS_URL].join(''),
-				{ Provincia: Provincia, Municipio: '' },
-				{
-					headers: {
-						'Content-Type': 'application/x-www-form-urlencoded'
-					}
-				})
+				.get(
+				'http://localhost:8080/getCatastro')
 				.then(response => {
 					resolve(response)
 				})

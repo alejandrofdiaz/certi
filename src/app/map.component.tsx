@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { suckDataFromGooglePlace, goggleImageAsALink } from '../api/maps';
 import { _CaptchaApi } from '../api/captcha.api';
+import { CatastroApiI } from '../api/catastro.api';
 
 interface theme {
 	root: string;
@@ -8,6 +9,7 @@ interface theme {
 	map: string;
 	input_wrapper: string;
 	input: string;
+	captcha: string;
 }
 
 interface State {
@@ -35,7 +37,8 @@ export class Map extends React.Component<{}, State>{
 			container: 'hero-body map__container',
 			map: 'map',
 			input_wrapper: 'map__input--wrapper',
-			input: 'input map__input'
+			input: 'input map__input',
+			captcha: 'g-recaptcha'
 		}
 		this.state = {
 			address: '',
@@ -53,13 +56,13 @@ export class Map extends React.Component<{}, State>{
 					if (response) {
 						this.enableForm();
 					} else {
-						this.enableForm();
+						this.disableForm()
 					}
 				}, (response) => { console.log(response) })
 		})
 
 		document.addEventListener('captchaExpired', () => {
-
+			this.disableForm()
 		})
 
 		const twinpizza: google.maps.LatLng =
@@ -156,7 +159,20 @@ export class Map extends React.Component<{}, State>{
 				<span>Foto fachada</span>						
 	 		 </a>`)
 	}
+
+
 	render() {
+		const Captcha = () => {
+			if (this.state && this.state.disableForm) {
+				return (<div key='recaptcha'
+					className={this.theme.captcha}
+					data-sitekey={process.env.GOOGLE_CAPTCHA_KEY}
+					data-callback='captchaSuccess'
+					data-expired-callback='captchaExpired'></div>)
+			} else
+				return null
+		}
+
 		return (
 			<section
 				id='address_form'
@@ -173,11 +189,7 @@ export class Map extends React.Component<{}, State>{
 						placeholder='Inserta tu dirección'
 						value={this.state.address}
 						onChange={this.updateAddress.bind(this)} />
-					<div key='recaptcha'
-						className="g-recaptcha"
-						data-sitekey={process.env.GOOGLE_CAPTCHA_KEY}
-						data-callback='captchaSuccess'
-						data-expired-callback='captchaExpired'></div>
+					<Captcha />
 				</div>
 			</section>
 		)

@@ -63,14 +63,20 @@ module.exports = {
 	},
 	devtool: 'inline-source-map',
 	devServer: {
-		port: 8080,
 		hot: false,
 		quiet: false,
 		inline: true,
-		headers: {
-			"Access-Control-Allow-Origin": "*",
-			"Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-			"Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
+		allowedHosts: [
+			'http://localhost:8080'
+		],
+		host: 'localhost',
+		port: 3000,
+		proxy: {
+			'/ws': {
+				target: 'http://localhost:8080',
+				secure: false,
+				pathRewrite: { "^/ws": "" }
+			}
 		}
 	},
 	plugins: [

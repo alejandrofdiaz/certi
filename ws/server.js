@@ -1,15 +1,24 @@
-const express = require('express'),
+const path = require('path'),
+	express = require('express'),
 	app = express(),
 	bodyParser = require('body-parser'),
 	request = require('request');
+const catastroApi = require('./catastro.api');
 
 const GOOGLE_CAPTCHA_KEY = '6LcXNTMUAAAAALdyHxYG7MDjDbjbWYzexof3Jn2G';
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+/**
+ * Enable Cors
+ */
+app.use((req, res, next) => {
+	res.header('Access-Control-Allow-Origin', '*');
+	res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+	next();
+});
 
 app.get('/testCaptcha', (req, res) => {
-
 	var verificationUrl =
 		'https://www.google.com/recaptcha/api/siteverify?secret=' +
 		GOOGLE_CAPTCHA_KEY +
@@ -23,12 +32,19 @@ app.get('/testCaptcha', (req, res) => {
 		body = JSON.parse(body);
 		// Success will be true or false depending upon captcha validation.
 		if (body.success !== undefined && !body.success) {
-			return res.json({ "responseCode": 1, "responseDesc": "Failed captcha verification" });
+			return res.json({ 'responseCode': 1, 'responseDesc': 'Failed captcha verification' });
 		}
-		res.json({ "responseCode": 0, "responseDesc": "Sucess" });
+		res.json({ 'responseCode': 0, 'responseDesc': 'Sucess' });
 	});
 })
 
-app.listen(8081, () => {
-	console.log('API listening on port 8081');
+app.get('/getCatastro', (req, res) => {
+	catastroApi
+		.getMunicipios('')
+		.then(response => console.log,
+		response => console.log);
+})
+
+app.listen(8080, () => {
+	console.log('API listening on port 8080');
 });
