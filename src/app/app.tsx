@@ -1,10 +1,10 @@
 import * as React from 'react';
 import AddressForm from './address.component';
 import { Map } from './map.component';
-import { CatastroApiI } from '../api/catastro.api';
+import { _CatastroApi } from '../api/catastro.api';
 
 
-CatastroApiI;
+_CatastroApi;
 interface AppState {
 
 }

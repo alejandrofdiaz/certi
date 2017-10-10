@@ -26,6 +26,18 @@ class CatastroApi {
 				})
 		});
 	}
+
+	getReferencias(lat: number, long: number): Promise<any> {
+		return new Promise((resolve, reject) => {
+			axios
+				.get(
+				'http://localhost:8080/getRC',
+				{ params: { lat, long } })
+				.then(response => {
+					resolve(response)
+				})
+		});
+	}
 }
 
-export const CatastroApiI = new CatastroApi();
+export const _CatastroApi = new CatastroApi();

@@ -39,3 +39,25 @@ Content-Type: text/xml; charset=utf-8
 Content-Length: length
 ```
 
+
+## Referencia catastral con coordenadas
+
+``` 
+http://ovc.catastro.meh.es/ovcservweb/ovcswlocalizacionrc/ovccoordenadas.asmx/Consulta_RCCOOR
+``` 
+
+```
+SRS:EPSG%3A32630
+Coordenada_X:426138.39
+Coordenada_Y:4462580.16
+```
+
+## Datos no protegidos
+
+http://ovc.catastro.meh.es/ovcservweb/ovcswlocalizacionrc/ovccallejero.asmx?op=Consulta_DNPRC
+
+## Fuentes
+
+http://ovc.catastro.meh.es/ovcservweb/ovcswlocalizacionrc/ovccallejero.asmx
+
+https://ovc.catastro.meh.es/ovcservweb/ovcswlocalizacionrc/ovccoordenadas.asmx

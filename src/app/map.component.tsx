@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { suckDataFromGooglePlace, goggleImageAsALink } from '../api/maps';
 import { _CaptchaApi } from '../api/captcha.api';
-import { CatastroApiI } from '../api/catastro.api';
+import { _CatastroApi } from '../api/catastro.api';
 
 interface theme {
 	root: string;
@@ -93,6 +93,8 @@ export class Map extends React.Component<{}, State>{
 		let place: google.maps.places.PlaceResult = this.autocomplete.getPlace();
 
 		if (place.geometry) {
+			const [lat, long] = [place.geometry.location.lat(), place.geometry.location.lng()]
+			_CatastroApi.getReferencias(lat, long);
 			this.setState({ place });
 
 			this.map.setCenter(

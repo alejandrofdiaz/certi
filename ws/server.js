@@ -38,9 +38,9 @@ app.get('/testCaptcha', (req, res) => {
 	});
 })
 
-app.get('/getCatastro', (req, res) => {
+app.get('/getRC', (req, res) => {
 	catastroApi
-		.getMunicipios('')
+		.getReferenciasCatastrales(req.query.lat, req.query.long)
 		.then(response => console.log,
 		response => console.log);
 })
