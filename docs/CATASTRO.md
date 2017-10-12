@@ -52,6 +52,12 @@ Coordenada_X:426138.39
 Coordenada_Y:4462580.16
 ```
 
+### Para que me devuelva muchas referencias en una misma coordenada.
+
+``` 
+http://ovc.catastro.meh.es/ovcservweb/ovcswlocalizacionrc/ovccoordenadas.asmx/Consulta_RCCOOR_Distancia
+``` 
+
 ## Datos no protegidos
 
 http://ovc.catastro.meh.es/ovcservweb/ovcswlocalizacionrc/ovccallejero.asmx?op=Consulta_DNPRC

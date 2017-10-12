@@ -1,28 +1,49 @@
 import * as React from 'react';
+import Sections from '../common/pageSections';
+import { CatastroSimplifiedElement } from '../model/CatastroSimplifiedElement';
 import { suckDataFromGooglePlace, goggleImageAsALink } from '../api/maps';
 import { _CaptchaApi } from '../api/captcha.api';
 import { _CatastroApi } from '../api/catastro.api';
+import jump from 'jump.js';
+
 
 interface theme {
 	root: string;
 	container: string;
 	map: string;
+	form_wrapper: string;
 	input_wrapper: string;
 	input: string;
 	captcha: string;
+	isLoading: string;
+}
+
+const theme: theme = {
+	root: 'hero is-large map__root',
+	container: 'hero-body map__container',
+	map: 'map',
+	form_wrapper: 'map__form--wrapper control',
+	input_wrapper: 'map__input--wrapper control',
+	input: 'input map__input',
+	captcha: 'g-recaptcha',
+	isLoading: 'is-loading'
 }
 
 interface State {
 	place: google.maps.places.PlaceResult;
 	address: string;
 	disableForm: boolean;
+	isLoading: boolean;
 }
 
-export class Map extends React.Component<{}, State>{
+interface Props {
+	setCatastroElements: (elements: CatastroSimplifiedElement[]) => void
+}
+
+export class Map extends React.Component<Props, State>{
 	map: google.maps.Map;
 	autocomplete: google.maps.places.Autocomplete;
 	markers: google.maps.Marker[];
-	theme: theme;
 	refs: {
 		map: any;
 		autocomplete_input: any;
@@ -32,15 +53,8 @@ export class Map extends React.Component<{}, State>{
 		super(props);
 		this.map;
 		this.markers = [];
-		this.theme = {
-			root: 'hero is-large map__root',
-			container: 'hero-body map__container',
-			map: 'map',
-			input_wrapper: 'map__input--wrapper',
-			input: 'input map__input',
-			captcha: 'g-recaptcha'
-		}
 		this.state = {
+			isLoading: false,
 			address: '',
 			place: null,
 			disableForm: true
@@ -49,6 +63,7 @@ export class Map extends React.Component<{}, State>{
 
 	componentDidMount() {
 		document.addEventListener('captchaSuccess', (event: any) => {
+			this.setLoading(true);
 			_CaptchaApi
 				.validate(event.detail.response)
 				.then(
@@ -58,7 +73,8 @@ export class Map extends React.Component<{}, State>{
 					} else {
 						this.disableForm()
 					}
-				}, (response) => { console.log(response) })
+				}, (response) => { })
+				.then(() => { this.setLoading(false) })
 		})
 
 		document.addEventListener('captchaExpired', () => {
@@ -79,6 +95,10 @@ export class Map extends React.Component<{}, State>{
 		this.autocomplete.addListener('place_changed', this.fillInAddress.bind(this));
 	}
 
+	setLoading(state: boolean) {
+		this.setState({ isLoading: state });
+	}
+
 	updateAddress(Event) {
 		const value = Event.target.value;
 		this.setState({ address: value });
@@ -94,8 +114,19 @@ export class Map extends React.Component<{}, State>{
 
 		if (place.geometry) {
 			const [lat, long] = [place.geometry.location.lat(), place.geometry.location.lng()]
-			_CatastroApi.getReferencias(lat, long);
-			this.setState({ place });
+			this.setState({ place, isLoading: true });
+
+
+			_CatastroApi
+				.getReferencias(lat, long)
+				.then(
+				({ data }: { data: CatastroSimplifiedElement[] }) => {
+					this.props.setCatastroElements(data);
+
+					jump(`#${Sections.rc_selector}`)
+				},
+				response => { })
+
 
 			this.map.setCenter(
 				place.geometry.location
@@ -127,6 +158,7 @@ export class Map extends React.Component<{}, State>{
 						infoWindow.open(this.map, marker);
 					});
 				})
+				.then(() => { this.setState({ isLoading: false }) })
 		}
 	}
 
@@ -162,12 +194,16 @@ export class Map extends React.Component<{}, State>{
 	 		 </a>`)
 	}
 
+	private isLoadingWrapper(isLoading: boolean): string {
+		return isLoading ? theme.isLoading : '';
+	}
+
 
 	render() {
 		const Captcha = () => {
 			if (this.state && this.state.disableForm) {
 				return (<div key='recaptcha'
-					className={this.theme.captcha}
+					className={theme.captcha}
 					data-sitekey={process.env.GOOGLE_CAPTCHA_KEY}
 					data-callback='captchaSuccess'
 					data-expired-callback='captchaExpired'></div>)
@@ -178,19 +214,25 @@ export class Map extends React.Component<{}, State>{
 		return (
 			<section
 				id='address_form'
-				className={this.theme.root}>
+				className={theme.root}>
 				<div ref='map'
 					key='map'
-					className={[this.theme.container, this.theme.map].join(' ')}></div>
-				<div className={this.theme.input_wrapper}>
-					<input
-						disabled={this.state.disableForm}
-						ref='autocomplete_input'
-						type='text'
-						className={this.theme.input}
-						placeholder='Inserta tu dirección'
-						value={this.state.address}
-						onChange={this.updateAddress.bind(this)} />
+					className={[theme.container, theme.map].join(' ')}></div>
+				<div className={
+					[theme.form_wrapper].join(' ')}>
+					<div className={
+						[theme.input_wrapper, this.isLoadingWrapper(this.state.isLoading)].join(' ')
+					}>
+						<input
+							disabled={this.state.disableForm}
+							ref='autocomplete_input'
+							type='text'
+							className={theme.input}
+							placeholder='Inserta tu dirección'
+							value={this.state.address}
+							onChange={this.updateAddress.bind(this)} />
+					</div>
+
 					<Captcha />
 				</div>
 			</section>

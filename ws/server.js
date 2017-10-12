@@ -41,8 +41,10 @@ app.get('/testCaptcha', (req, res) => {
 app.get('/getRC', (req, res) => {
 	catastroApi
 		.getReferenciasCatastrales(req.query.lat, req.query.long)
-		.then(response => console.log,
-		response => console.log);
+		.then(
+		response => res.json(response),
+		response => res.json(response)
+		);
 })
 
 app.listen(8080, () => {

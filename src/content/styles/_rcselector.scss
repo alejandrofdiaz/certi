@@ -1,0 +1,40 @@
+@import 'variables';
+
+.rcselector{
+	&__body{}
+	&__container{}
+	&__element{
+
+		cursor: pointer;
+
+		&:hover{
+			.rcselector__element-address{
+				font-size: 1.1em;	
+				color: $grey-light;			
+			}
+		}
+
+		&-distance{
+			width: 9rem;
+			margin-right: 1em;			
+			>.fa{
+				margin-left: 1em;
+			}
+			
+			@media (min-width: $desktop) {
+				display: inline-block;
+			}				
+		}
+
+		&-address{
+			transition: font-size .2s linear;
+			
+			display: block;
+			padding: .5em 0;
+			@media (min-width: $desktop) {
+				display: inline;
+				padding: 0;
+			}	
+		}
+	}
+}

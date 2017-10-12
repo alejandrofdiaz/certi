@@ -1,23 +1,34 @@
 import * as React from 'react';
 import AddressForm from './address.component';
 import { Map } from './map.component';
-import { _CatastroApi } from '../api/catastro.api';
+import { RCSelector } from './rcselector.component';
 
+import { CatastroSimplifiedElement } from '../model/CatastroSimplifiedElement';
 
-_CatastroApi;
 interface AppState {
-
+	catastroSelectableElements: CatastroSimplifiedElement[];
 }
 
 export default class App extends React.Component<{}, AppState>{
 	constructor() {
 		super();
+
+		this.state = {
+			catastroSelectableElements: []
+		}
+	}
+
+	selectCatastroElements(catastroSelectableElements: CatastroSimplifiedElement[]) {
+		this.setState({ catastroSelectableElements })
 	}
 
 	render() {
 		return (
 			<div className='app_container'>
-				<Map />
+				<Map setCatastroElements={this.selectCatastroElements.bind(this)} />
+				<RCSelector
+					SelectRC={console.log}
+					CatastroElements={this.state.catastroSelectableElements} />
 				{/* <section className='hero'>
 					<div className='hero-body'>
 						<div className='container'>
