@@ -84,6 +84,7 @@ module.exports = {
 			filename: 'index.html', //Name of file in ./dist/
 			template: './src/index.ejs', //Name of template in ./src
 			hash: true,
+			favicon: 'favicon.ico'
 		}),
 		new webpack.ProvidePlugin({
 			axios: 'axios'
@@ -94,6 +95,10 @@ module.exports = {
 		new CopyWebpackPlugin([{
 			from: 'src/assets',
 			to: 'assets'
+		}]),
+		new CopyWebpackPlugin([{
+			from: 'favicon.ico',
+			to: 'favicon.ico'
 		}]),
 		new ExtractTextPlugin({
 			filename: '[chunkhash].[name].css',
