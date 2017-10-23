@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { xml2js } from 'xml-js';
+import { CatastroSimplifiedElement } from '../model/CatastroSimplifiedElement';
 
 class CatastroApi {
 	private BASE_URL: string;
@@ -33,6 +34,18 @@ class CatastroApi {
 				.get(
 				'http://localhost:8080/getRC',
 				{ params: { lat, long } })
+				.then(response => {
+					resolve(response)
+				})
+		});
+	}
+
+	getDNPRC(data: CatastroSimplifiedElement) {
+		return new Promise((resolve, reject) => {
+			axios
+				.get(
+				'http://localhost:8080/getDNPPP',
+				{ params: data })
 				.then(response => {
 					resolve(response)
 				})

@@ -1,6 +1,7 @@
 const request = require('request');
 const utm = require('utm').fromLatLon;
 const xmlToJS = require('xml-js').xml2js;
+const municipiosApi = require('./municipios.api');
 
 const URL_BASE_CATASTRO = 'http://ovc.catastro.meh.es/ovcservweb/ovcswlocalizacionrc/';
 
@@ -137,9 +138,34 @@ module.exports = {
 					resolve(_body);
 				})
 		})
+	},
+	getCatastroDatosNoProtegidos: inmuebleSeleccionado => {
+		const [service, action] = ['ovccallejero.asmx', 'Consulta_DNPRC']
+		const [provincia, municipio] =
+			[
+				municipiosApi.getProvincia(inmuebleSeleccionado.cp),
+				municipiosApi.getMunicipio(inmuebleSeleccionado.cp, inmuebleSeleccionado.cm)
+			];
 
 
-
-
+		const options = {
+			url: `${URL_BASE_CATASTRO}${service}/${action}`,
+			method: 'GET',
+			qs: {
+				Provincia: provincia.value,
+				Municipio: municipio.nm,
+				RC: `${inmuebleSeleccionado.pc1}${inmuebleSeleccionado.pc2}`
+			},
+			headers: {
+				'Access-Control-Allow-Origin': '*',
+				'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
+			}
+		}
+		return new Promise((resolve, reject) => {
+			request
+				.get(options, (err, httpResponse, body) => {
+					resolve(body);
+				})
+		})
 	}
 }

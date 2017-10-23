@@ -47,6 +47,15 @@ app.get('/getRC', (req, res) => {
 		);
 })
 
+app.get('/getDNPPP', (req, res) => {
+	catastroApi
+		.getCatastroDatosNoProtegidos(req.query)
+		.then(
+		response => res.json(response),
+		response => res.json(response)
+		);
+})
+
 app.listen(8080, () => {
 	console.log('API listening on port 8080');
 });

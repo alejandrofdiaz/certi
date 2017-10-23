@@ -1,7 +1,10 @@
 @import 'variables';
 
 .rcselector{
-	&__body{}
+	&__body{
+		height: 300px;
+		overflow-y: auto;
+	}
 	&__container{}
 	&__element{
 

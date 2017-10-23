@@ -7,6 +7,7 @@ import { CatastroSimplifiedElement } from '../model/CatastroSimplifiedElement';
 
 interface AppState {
 	catastroSelectableElements: CatastroSimplifiedElement[];
+	catastroSelectedElement: any;
 }
 
 export default class App extends React.Component<{}, AppState>{
@@ -14,7 +15,8 @@ export default class App extends React.Component<{}, AppState>{
 		super();
 
 		this.state = {
-			catastroSelectableElements: []
+			catastroSelectableElements: [],
+			catastroSelectedElement: {}
 		}
 	}
 

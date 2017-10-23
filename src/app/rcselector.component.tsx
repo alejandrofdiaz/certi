@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { CatastroSimplifiedElement } from '../model/CatastroSimplifiedElement';
+import { _CatastroApi } from '../api/catastro.api';
 import Sections from '../common/pageSections';
 
 
@@ -24,7 +25,11 @@ const theme = {
 export const RCSelector = (props: Props) => {
 
 	const selectRC = (element: CatastroSimplifiedElement) => () => {
-		props.SelectRC(element)
+		_CatastroApi.getDNPRC(element).then(
+			({ data }) => {
+				props.SelectRC(data)
+			},
+			response => { })
 	}
 
 	if (props.CatastroElements && props.CatastroElements.length) {
