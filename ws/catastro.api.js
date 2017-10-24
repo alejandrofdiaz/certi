@@ -24,6 +24,72 @@ class CatastroSimplifiedElement {
 		this.ldt = ''
 		this.dis = 0
 	}
+
+	getRC() {
+		return `${this.pc1}${this.pc2}`
+	}
+}
+
+class Subparcela {
+	constructor() {
+		this.cspr = ''; //código de subparcela
+		this.dspr = ''; //datos de subparcela
+		this.ccc = ''; //calificación catastral
+		this.dcc = ''; //<dcc>DENOMINACIÓN DE LA CLASE CULTIVO</dcc>
+		this.ip = ''; //<ip>INTENSIDAD PRODUCTIVA</ip>
+		this.ssp = ''; //<ssp>SUPERFICIE DE LA SUBPARCELA EN METROS CUADRADOS</ssp>
+	}
+}
+
+class UnidadConstructiva {
+	constructor() {
+		this.lcd = '';
+		this.es = ''; //escalera
+		this.pt = ''; //planta
+		this.pu = ''; //puerta
+		this.stl = ''; //superficie de la unidad constructiva
+		this.stl = ''; //superficie elementos comunes
+		this.lsrp = []; //lista de subparcelas
+	}
+}
+
+class ConsultaDNP {
+	constructor() {
+		this.cn = ''; //<cn>TIPO DE BIEN INMUEBLE</cn>		
+		this.pc1 = ''; //<pc1> POSICIONES 1-7 DE LA REFERENCIA CATASTRAL (RC) DEL INMUEBLE</pc1>		
+		this.pc2 = ''; //<pc2>POSICIONES 8-14 DE LA RC DEL INMUEBLE</pc1>		
+		this.car = ''; //<car>POSICIONES 15-19 DE LA RC (CARGO)</car>		
+		this.cc1 = ''; //<cc1>PRIMER DÍGITO DE CONTROL DE LA RC</cc1>		
+		this.cc2 = ''; //<cc2>SEGUNDO DÍGITO DE CONTROL DE LA RC </cc2>		
+		this.cm = ''; //código municipio
+		this.cp = ''; //código provincia
+		this.cmc = '';
+		this.np = ''; //nombre provincia
+		this.np = ''; //nombre municipio
+		this.dir = {
+			cv: '',
+			tv: '', //tipo vía
+			nv: '', //nombre vía
+			pnp: '' //número
+		};
+		this.loint = {
+			es: '',
+			pt: '',
+			pu: ''
+		};
+		this.dp = ''; //código postal
+		this.dm = '';
+		this.ldt = ''; //calle compuesta
+		this.debi = {
+			luso: '', //Residencial?
+			sfc: '', //SUPERFICIE
+			cpt: '', //COEFICIENTE DE PARTICIPACIÓN
+			ant: ''  //ANTIGUEDAD
+		}
+		this.lcons = []; //<lcons>LISTA DE UNIDADES CONSTRUCTIVAS		
+	}
+
+
 }
 
 
@@ -77,6 +143,10 @@ const refCatastralesXmlHelper = body =>
 			return simplifiedElement
 		})
 		.sort((a, b) => (a.dis - b.dis)) //Ordena ascendente por distancia
+
+const DNPRCXmlHelper = body =>
+	xmlToJS(body)
+		.elements[0].elements//consulta_dnp 
 
 
 module.exports = {
