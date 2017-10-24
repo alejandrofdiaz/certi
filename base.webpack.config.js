@@ -24,6 +24,9 @@ module.exports = {
 		style: [
 			'./src/styles',
 			'./node_modules/font-awesome/scss/font-awesome.scss'
+		],
+		eeStyles: [
+			'./src/content/styles/_etiquetaEnergetica.scss'
 		]
 	},
 	output: {
@@ -86,12 +89,19 @@ module.exports = {
 			hash: true,
 			favicon: 'favicon.ico'
 		}),
+		new HtmlWebpackPlugin({
+			filename: 'etiquetaEn.html', //Name of file in ./dist/
+			template: './src/etiquetaEn.html', //Name of template in ./src
+			hash: true,
+			chunksSortMode: 'manual',
+			chunks: ['manifest', 'bootstrap', 'eeStyles']
+		}),
 		new webpack.ProvidePlugin({
 			axios: 'axios'
 		}),
-		new webpack.optimize.CommonsChunkPlugin({
-			names: ['manifest', 'vendor', 'app'].reverse()
-		}),
+		// new webpack.optimize.CommonsChunkPlugin({
+		// 	names: ['manifest', 'bootstrap', 'vendor', 'app'].reverse()
+		// }),
 		new CopyWebpackPlugin([{
 			from: 'src/assets',
 			to: 'assets'
