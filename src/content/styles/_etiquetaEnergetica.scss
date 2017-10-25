@@ -2,6 +2,14 @@ $green_1: #00954c;
 $gray_1: #e6e6e5;
 $gray_2: #4d4d4d;
 
+$a_color: #00954c;
+$b_color: #0cb14b;
+$c_color: #99ca3c;
+$d_color: #ebe724;
+$e_color: #efb51d;
+$f_color: #e07527;
+$g_color: #e32f28;
+
 *{
 	font-family: 'Arial Condensed'
 }
@@ -124,6 +132,141 @@ body{
 	&__secondary-data{
 		height: 135mm;
 	}
+
+	&__chart{
+		padding: 0 2.5mm;
+		width: 100%;
+		&__header{
+			padding:0;	
+			margin: 0;			
+			&--main{
+				font-weight: bolder;
+				text-align: left;
+				font-size: 4mm;
+				text-transform: uppercase;
+			}
+			&--secondary{
+				width: 33.5mm;
+				font-weight: normal;
+				font-size: 3.8mm;
+				>p{margin:0;}
+			}
+		}
+		&__row{
+			>td{
+				padding: 0;
+				height: 14.5mm;			
+				&:first-child{
+					border-radius: 2mm;
+				}
+				&:not(:last-child){		
+					border-right: 1.75mm solid $gray_1;		
+				}
+			}
+			&:not(:last-child){
+				>td{
+					border-bottom: 2.8mm solid $gray_1;									
+				}
+			}
+			background-color: white;
+		}
+		&__cell{
+			text-align: center;
+			font-size: 12.5mm;
+		}
+	}
+
+	&__ribbon{
+		$max-width: 102mm;
+		position: relative;
+		border-top-left-radius: 2mm;
+		border-bottom-left-radius: 2mm;
+		color: white;
+		height: 100%;
+		max-width: $max-width;
+		padding: 0mm 0 0 4.5mm;
+
+		display: flex;
+		align-items: baseline;
+
+		flex-direction: row;
+		flex-wrap: nowrap;
+		&__title, &__subtitle{
+			margin:0;
+		}
+		&__title{
+			text-transform: uppercase;
+			font-size: 12.5mm;
+			font-weight: bold;
+		}
+		&__subtitle{
+			margin-left: 1mm;
+			text-transform: lowercase;
+			font-size: 4.2mm;
+		}
+
+		&::after{
+			$height: 14.5mm;
+			content: ' ';
+			position: absolute;
+			right: ($height/2)*-1;
+			width: 0; 
+			height: 0; 
+			border-top: ($height/2) solid transparent;
+			border-bottom: ($height/2) solid transparent;
+			border-left: ($height/2) solid red;
+		}
+
+		&__a{
+			background-color: $a_color;
+			&::after{
+				border-left-color: $a_color;				
+			}
+			width: 30mm;
+		}
+		&__b{
+			background-color: $b_color;
+			&::after{
+				border-left-color: $b_color;				
+			}
+			width: 42mm;
+		}
+		&__c{
+			background-color: $c_color;
+			width: 54mm;	
+			&::after{
+				border-left-color: $c_color;				
+			}		
+		}
+		&__d{
+			background-color: $d_color;		
+			width: 66mm;
+			&::after{
+				border-left-color: $d_color;				
+			}
+		}
+		&__e{
+			background-color: $e_color;
+			width: 78mm;			
+			&::after{
+				border-left-color: $e_color;				
+			}
+		}
+		&__f{
+			background-color: $f_color;
+			width: 90mm;	
+			&::after{
+				border-left-color: $f_color;				
+			}
+		}
+		&__g{
+			background-color: $g_color;
+			&::after{
+				border-left-color: $g_color;				
+			}
+		}
+	}
+
 	&__signature-data{
 		margin: 5mm 3mm 3mm 3mm;
 		height: 30mm;
@@ -143,9 +286,7 @@ body{
 		&__title{
 			margin-bottom: 1mm;
 		}
-		&__subtitle{
-
-		}
+		&__subtitle{}
 		&__flag{
 			position: absolute;
 			right: 13mm;
