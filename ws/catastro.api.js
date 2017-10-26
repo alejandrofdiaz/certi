@@ -367,13 +367,12 @@ module.exports = {
 		return new Promise((resolve, reject) => {
 			request
 				.get(options, (err, httpResponse, body) => {
-					resolve(DNPRCXmlHelper(testCatastro));
 					switch (httpResponse.statusCode) {
 						case 400:
 							reject(body);
 							break;
 						case 200:
-							resolve(body);
+							resolve(DNPRCXmlHelper(body));
 							break;
 						default:
 							reject(body);
