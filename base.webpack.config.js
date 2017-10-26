@@ -75,10 +75,10 @@ module.exports = {
 		host: 'localhost',
 		port: 3000,
 		proxy: {
-			'/ws': {
-				target: 'http://localhost:8080',
+			'/': {
+				target: 'http://test:8080',
 				secure: false,
-				pathRewrite: { "^/ws": "" }
+				pathRewrite: { "^/": "" }
 			}
 		}
 	},
@@ -87,21 +87,22 @@ module.exports = {
 			filename: 'index.html', //Name of file in ./dist/
 			template: './src/index.ejs', //Name of template in ./src
 			hash: true,
-			favicon: 'favicon.ico'
+			favicon: 'favicon.ico',
+			excludeChunks : ['eeStyles']
 		}),
-		new HtmlWebpackPlugin({
-			filename: 'etiquetaEn.html', //Name of file in ./dist/
-			template: './src/etiquetaEn.html', //Name of template in ./src
-			hash: true,
-			chunksSortMode: 'manual',
-			chunks: ['manifest', 'bootstrap', 'eeStyles']
-		}),
+		// new HtmlWebpackPlugin({
+		// 	filename: 'etiquetaEn.html', //Name of file in ./dist/
+		// 	template: './src/etiquetaEn.html', //Name of template in ./src
+		// 	hash: true,
+		// 	chunksSortMode: 'manual',
+		// 	chunks: ['manifest', 'bootstrap', 'eeStyles']
+		// }),
 		new webpack.ProvidePlugin({
 			axios: 'axios'
 		}),
-		// new webpack.optimize.CommonsChunkPlugin({
-		// 	names: ['manifest', 'bootstrap', 'vendor', 'app'].reverse()
-		// }),
+		new webpack.optimize.CommonsChunkPlugin({
+			names: ['manifest', 'bootstrap', 'vendor', 'app'].reverse()
+		}),
 		new CopyWebpackPlugin([{
 			from: 'src/assets',
 			to: 'assets'

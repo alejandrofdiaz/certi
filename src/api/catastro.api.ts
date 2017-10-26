@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from './ws';
 import { xml2js } from 'xml-js';
 import { CatastroSimplifiedElement } from '../model/CatastroSimplifiedElement';
 

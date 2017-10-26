@@ -1,7 +1,7 @@
-import axios from 'axios';
-
+import axios from './ws';
 
 class CaptchaApi {
+	public responseKey: string;
 	public validate(response): Promise<boolean> {
 		return new Promise((resolve, reject) => {
 			axios
@@ -9,6 +9,7 @@ class CaptchaApi {
 				.then(
 				({ data }) => {
 					if (data.responseCode === 0) {
+						this.responseKey = response;
 						resolve(true)
 					} else
 						resolve(false)

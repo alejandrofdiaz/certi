@@ -1,6 +1,7 @@
 import { isString } from 'lodash';
 import { LocationExchange } from '../model/location.model';
-import axios from 'axios';
+import axios from './ws';
+import _axios from 'axios';
 
 interface CoordinatesS {
 	lat: number;
@@ -159,13 +160,13 @@ export const goggleImageAsALink
 				situation: string;
 				streetView: string;
 			}
-			axios.all([
+			_axios.all([
 				axios.get(getStaticSituation(place.formatted_address, GoogleStaticDefaultParams),
 					{ responseType: 'arraybuffer' }),
 				axios.get(getStreetViewStatic(place.formatted_address, StreetViewStaticDefaultParams),
 					{ responseType: 'arraybuffer' }),
 			])
-				.then(axios.spread((situation, streetView) => {
+				.then(_axios.spread((situation, streetView) => {
 					const callback: GoogleStaticImagesCallback = {
 						situation: _imageEncode(situation.data, situation.headers['content-type']),
 						streetView: _imageEncode(streetView.data, streetView.headers['content-type']),
