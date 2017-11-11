@@ -10,6 +10,8 @@ $e_color: #efb51d;
 $f_color: #e07527;
 $g_color: #e32f28;
 
+@import './eulogo';
+
 *{
 	font-family: 'Arial Condensed','Arial Narrow','Arial'
 }
@@ -338,7 +340,7 @@ body{
 			top: 0;
 			width: 13.3mm;
 			height: 10mm;
-			background: url('../../../assets/eulogo.jpg');
+			@include eulogo();
 			background-size: contain;
 		}
 	}

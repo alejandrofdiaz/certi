@@ -26,7 +26,7 @@ module.exports = {
 			'./node_modules/font-awesome/scss/font-awesome.scss'
 		],
 		eeStyles: [
-			'./src/content/styles/_etiquetaEnergetica.scss'
+			'./ws/etiqueta_rendering/_etiquetaEnergetica.scss'
 		]
 	},
 	output: {
@@ -88,15 +88,15 @@ module.exports = {
 			template: './src/index.ejs', //Name of template in ./src
 			hash: true,
 			favicon: 'favicon.ico',
-			excludeChunks : ['eeStyles']
+			excludeChunks: ['eeStyles']
 		}),
-		// new HtmlWebpackPlugin({
-		// 	filename: 'etiquetaEn.html', //Name of file in ./dist/
-		// 	template: './src/etiquetaEn.html', //Name of template in ./src
-		// 	hash: true,
-		// 	chunksSortMode: 'manual',
-		// 	chunks: ['manifest', 'bootstrap', 'eeStyles']
-		// }),
+		new HtmlWebpackPlugin({
+			filename: 'etiquetaEn.html',
+			template: './ws/etiqueta_rendering/etiquetaEn.html',
+			hash: true,
+			chunksSortMode: 'manual',
+			chunks: ['manifest', 'bootstrap', 'eeStyles']
+		}),
 		new webpack.ProvidePlugin({
 			axios: 'axios'
 		}),
