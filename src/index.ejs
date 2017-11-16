@@ -22,14 +22,17 @@
 		<div class="navbar-brand">
 			<a class="navbar-item"
 			   href="http://bulma.io">
-					<img src="./assets/logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="112" height="28">
-				  </a>
+				<img src="./assets/logo.png"
+				     alt="Bulma: a modern CSS framework based on Flexbox"
+				     width="112"
+				     height="28">
+			</a>
 			<button class="button navbar-burger"
 			        data-target="navMenu">
-					<span></span>
-					<span></span>
-					<span></span>
-				  </button>
+				<span></span>
+				<span></span>
+				<span></span>
+			</button>
 		</div>
 		<div class="navbar-menu"
 		     id="navMenu">
@@ -39,6 +42,9 @@
 			<a class="navbar-item"
 			   id="data_link"
 			   data-target="address_form">Datos</a>
+			<a class="navbar-item"
+			   id="pdf_link"
+			   data-target="get_pdf">Etiqueta Energética</a>
 			<a class="navbar-item"
 			   id="contact_link"
 			   data-target="contact">Contacto</a>
@@ -67,7 +73,8 @@
 				<div class="level-item has-text-centered">
 					<div>
 						<p class="heading">Catastro</p>
-						<p class="title"><i class="fa fa-building"
+						<p class="title">
+							<i class="fa fa-building"
 							   aria-hidden="true"></i>
 						</p>
 					</div>
@@ -75,7 +82,8 @@
 				<div class="level-item has-text-centered">
 					<div>
 						<p class="heading">Google Maps</p>
-						<p class="title"><i class="fa fa-google"
+						<p class="title">
+							<i class="fa fa-google"
 							   aria-hidden="true"></i>
 						</p>
 					</div>
@@ -91,6 +99,60 @@
 	</section>
 	<div id="app">
 	</div>
+	<section id="get_pdf"
+	         class="hero is-primary">
+		<div class="hero-body">
+			<div class="container">
+				<h1 class="title">
+					Consigue tu etiqueta energética
+				</h1>
+				<h2 class="subtitle">
+					Vamos a necesitar el XML de tu estudio energético y el código de la gestión que te dio la administración cuando inscribiste el código.
+				</h2>
+
+				<form action="">
+					<!-- <input name="xml_input"
+					       type="file">
+					<input name="xml_code"
+					       type="text">
+					<input type="button"
+					       value="Sube!"> -->
+
+					<div class="file has-name">
+						<label class="file-label">
+							<input class="file-input"
+							       type="file"
+							       name="xml_input">
+							<span class="file-cta">
+								<span class="file-icon">
+									<i class="fa fa-upload"></i>
+								</span>
+								<span class="file-label">
+									Elige archivo Xml
+								</span>
+							</span>
+							<span class="file-name">
+								Screen Shot 2017-07-29 at 15.54.25.png
+							</span>
+						</label>
+					</div>
+					<div class="field has-addons">
+						<p class="control">
+							<input class="input"
+							       type="text"
+							       placeholder="Amount of money">
+						</p>
+						<p class="control">
+							<input type="button"
+							       class="button is-link"
+							       value="Sube!" />
+
+						</p>
+					</div>
+				</form>
+			</div>
+		</div>
+	</section>
 	<section id="contact"
 	         class="hero is-dark is-medium">
 		<div class="hero--parallax hero-background-image--contact"></div>
@@ -104,9 +166,31 @@
 			<nav class="tabs is-large is-centered is-boxed">
 				<div class="container">
 					<ul>
-						<li><a href="https://twitter.com"><span class="icon is-small"><i class="fa fa-twitter"></i></span><span>Twitter</span></a></li>
-						<li><a href="https://linkedin.com"><span class="icon is-small"><i class="fa fa-linkedin"></i></span><span>Linkedin</span></a></li>
-						<li><a href="https://twitter.com"><span class="icon is-small"><i class="fa fa-envelope" aria-hidden="true"></i></span><span>Mail</span></a></li>
+						<li>
+							<a href="https://twitter.com">
+								<span class="icon is-small">
+									<i class="fa fa-twitter"></i>
+								</span>
+								<span>Twitter</span>
+							</a>
+						</li>
+						<li>
+							<a href="https://linkedin.com">
+								<span class="icon is-small">
+									<i class="fa fa-linkedin"></i>
+								</span>
+								<span>Linkedin</span>
+							</a>
+						</li>
+						<li>
+							<a href="https://twitter.com">
+								<span class="icon is-small">
+									<i class="fa fa-envelope"
+									   aria-hidden="true"></i>
+								</span>
+								<span>Mail</span>
+							</a>
+						</li>
 					</ul>
 				</div>
 			</nav>
@@ -116,14 +200,16 @@
 		<div class="container">
 			<div class="content has-text-centered">
 				<p>
-					<strong>Certi</strong> by <a href="http://jgthms.com">Alejandro Frías</a>. The source code is licensed
-					<a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
+					<strong>Certi</strong> by
+					<a href="http://jgthms.com">Alejandro Frías</a>. The source code is licensed
+					<a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content is licensed
+					<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
 				</p>
 				<p>
 					<a class="icon"
 					   href="https://github.com/alejandrofdiaz">
-				<i class="fa fa-github"></i>
-			  </a>
+						<i class="fa fa-github"></i>
+					</a>
 				</p>
 			</div>
 		</div>

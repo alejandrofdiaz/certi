@@ -1,6 +1,5 @@
 const xmlToJS = require('xml-js').xml2js;
 const fs = require('fs');
-
 class SummaryCertificado {
 	constructor() {
 		this.anio = '';
@@ -15,15 +14,12 @@ class SummaryCertificado {
 		this.emisionesCO2 = '';
 		this.registro = '';
 		this.fecha = '';
-		this.resumen = '';
 		this.datosEdificio = '';
 	}
 
 	generateResumen() {
-		this.datosEdificio = `
-		Construccion - ${this.anio}
-		${this.normativa}
-		`
+		this.datosEdificio = `Construccion - ${this.anio}
+		${this.normativa}`
 	}
 }
 
@@ -31,7 +27,7 @@ const parseDataFromSummary = xml => {
 	const _xml = xmlToJS(xml).elements[0];
 	const summary = new SummaryCertificado();
 
-	if (xml.name === 'DatosEnergeticosDelEdificio') {
+	if (_xml.name === 'DatosEnergeticosDelEdificio') {
 		try {
 			summary.anio = _xml.elements
 				.find(item => item.name === 'IdentificacionEdificio').elements
@@ -60,6 +56,12 @@ const parseDataFromSummary = xml => {
 			summary.tipoEdificio = _xml.elements
 				.find(item => item.name === 'IdentificacionEdificio').elements
 				.find(item => item.name === 'TipoDeEdificio').elements[0].text;
+
+			summary.tipoEdificio =
+				summary.tipoEdificio
+					.replace(/([A-Z])/g, ' $1')
+					.replace(/^./, str => str.toUpperCase())
+
 		} catch (err) {
 			console.log('error parseando')
 		}

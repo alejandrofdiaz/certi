@@ -56,6 +56,10 @@ app.get('/getDNPPP', (req, res) => {
 		);
 })
 
+app.post('/retrieveEtiquetaPDF', (req, res) => {
+
+})
+
 app.listen(8080, () => {
 	console.log('API listening on port 8080');
 });

@@ -1,17 +1,22 @@
 const puppeteer = require('puppeteer');
+const path = require('path');
 const htmlTemplate = require('./contentHtml');
 const stylesheet = require('./stylesheet');
 
-(async () => {
+const render = async (html, filename) => {
 	const browser = await puppeteer.launch();
 	const page = await browser.newPage();
 	await page.emulateMedia('screen');
-	await page.setContent(htmlTemplate);
+	await page.setContent(html);
 	await page.addStyleTag({ content: stylesheet() })
 	await page.pdf({
-		path: __dirname + '/test.pdf',
+		path: path.resolve(__dirname, `${filename}.pdf`),
 		printBackground: true,
 		format: 'a4'
 	});
 	await browser.close();
-})();
+}
+
+module.exports = {
+	render
+}
