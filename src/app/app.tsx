@@ -2,7 +2,7 @@ import * as React from 'react';
 import AddressForm from './address.component';
 import { Map } from './map.component';
 import { RCSelector } from './rcselector.component';
-
+import { DownloadPdfForm } from './downloadPdf.component';
 import { CatastroSimplifiedElement } from '../model/CatastroSimplifiedElement';
 
 interface AppState {
@@ -31,13 +31,7 @@ export default class App extends React.Component<{}, AppState>{
 				<RCSelector
 					SelectRC={console.log}
 					CatastroElements={this.state.catastroSelectableElements} />
-				{/* <section className='hero'>
-					<div className='hero-body'>
-						<div className='container'>
-							<AddressForm />
-						</div>
-					</div>
-				</section> */}
+				<DownloadPdfForm />
 			</div>
 		)
 	}
