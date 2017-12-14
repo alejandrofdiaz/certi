@@ -3,8 +3,10 @@ const path = require('path'),
 	app = express(),
 	bodyParser = require('body-parser'),
 	request = require('request');
-const catastroApi = require('./catastro.api');
 
+const formidable = require('formidable');
+const catastroApi = require('./catastro.api');
+const CEEPdfRendering = require('./etiqueta_rendering/api.js');
 const GOOGLE_CAPTCHA_KEY = '6LcXNTMUAAAAALdyHxYG7MDjDbjbWYzexof3Jn2G';
 
 app.use(bodyParser.json());
@@ -57,7 +59,16 @@ app.get('/getDNPPP', (req, res) => {
 })
 
 app.post('/retrieveEtiquetaPDF', (req, res) => {
+	const files = new formidable.IncomingForm();
+	const numRef = req.query.numRef;
+	files.uploadDir = path.resolve(__dirname, 'temp');
+	files.parse(req, async (err, fields, files) => {
+		const xml = files['xml'];
 
+		const test = await CEEPdfRendering.getPDFFromXml(xml.path )
+	})
+
+	res.json('holaaa')
 })
 
 app.listen(8080, () => {

@@ -1,7 +1,9 @@
 import * as React from 'react';
+import { ChangeEvent } from 'react';
+import CeePdfApi from '../api/ceePdf.api';
 import { FileXMLCheck } from '../api/utils';
 import { Event } from '_debugger';
-import { ChangeEvent } from 'react';
+
 
 const theme = {
 	id: 'get_pdf',
@@ -170,9 +172,12 @@ export class DownloadPdfForm extends React.Component<{}, State>{
 		this.setState({ numReferencia: event.target.value })
 	}
 
-	onSubmit(event: ChangeEvent<any>) {
+	async onSubmit(event: ChangeEvent<any>) {
 		event.preventDefault();
-		if (!this._disabledForm) console.log(this.state)
+		if (!this._disabledForm) {
+			const pdf = await CeePdfApi.getCEEPdf(this.state.file, this.state.numReferencia);
+			console.log(pdf);
+		}
 	}
 
 	render() {

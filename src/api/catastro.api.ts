@@ -1,5 +1,4 @@
 import axios from './ws';
-import { xml2js } from 'xml-js';
 import { CatastroSimplifiedElement } from '../model/CatastroSimplifiedElement';
 
 class CatastroApi {
