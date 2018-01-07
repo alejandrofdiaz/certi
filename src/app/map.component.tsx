@@ -6,236 +6,276 @@ import { _CaptchaApi } from '../api/captcha.api';
 import { _CatastroApi } from '../api/catastro.api';
 import jump from 'jump.js';
 
-
 interface theme {
-	root: string;
-	container: string;
-	map: string;
-	form_wrapper: string;
-	input_wrapper: string;
-	input: string;
-	captcha: string;
-	isLoading: string;
+  root: string;
+  container: string;
+  map: string;
+  form_wrapper: string;
+  input_wrapper: string;
+  input: string;
+  captcha: string;
+  isLoading: string;
 }
 
 const theme: theme = {
-	root: 'hero is-large map__root',
-	container: 'hero-body map__container',
-	map: 'map',
-	form_wrapper: 'map__form--wrapper control',
-	input_wrapper: 'map__input--wrapper control',
-	input: 'input map__input',
-	captcha: 'g-recaptcha',
-	isLoading: 'is-loading'
-}
+  root: 'hero is-large map__root',
+  container: 'hero-body map__container',
+  map: 'map',
+  form_wrapper: 'map__form--wrapper control',
+  input_wrapper: 'map__input--wrapper control',
+  input: 'input map__input',
+  captcha: 'g-recaptcha',
+  isLoading: 'is-loading'
+};
 
 interface State {
-	place: google.maps.places.PlaceResult;
-	address: string;
-	disableForm: boolean;
-	isLoading: boolean;
+  place: google.maps.places.PlaceResult;
+  address: string;
+  disableForm: boolean;
+  isLoading: boolean;
 }
 
 interface Props {
-	setCatastroElements: (elements: CatastroSimplifiedElement[]) => void
+  setCatastroElements: (elements: CatastroSimplifiedElement[]) => void;
 }
 
-export class Map extends React.Component<Props, State>{
-	map: google.maps.Map;
-	autocomplete: google.maps.places.Autocomplete;
-	markers: google.maps.Marker[];
-	refs: {
-		map: any;
-		autocomplete_input: any;
-	}
+export class Map extends React.Component<Props, State> {
+  map: google.maps.Map;
+  autocomplete: google.maps.places.Autocomplete;
+  markers: google.maps.Marker[];
+  refs: {
+    map: any;
+    autocomplete_input: any;
+  };
 
-	constructor(props) {
-		super(props);
-		this.map;
-		this.markers = [];
-		this.state = {
-			isLoading: false,
-			address: '',
-			place: null,
-			disableForm: true
-		}
-	}
+  constructor(props) {
+    super(props);
+    this.map;
+    this.markers = [];
+    this.state = {
+      isLoading: false,
+      address: '',
+      place: null,
+      disableForm: true
+    };
 
-	componentDidMount() {
-		document.addEventListener('captchaSuccess', (event: any) => {
-			this.setLoading(true);
-			_CaptchaApi
-				.validate(event.detail.response)
-				.then(
-				response => {
-					if (response) {
-						this.enableForm();
-					} else {
-						this.disableForm()
-					}
-				}, (response) => { })
-				.then(() => { this.setLoading(false) })
-		})
+    this.fillInAddress = this.fillInAddress.bind(this);
+    this.createMarker = this.createMarker.bind(this);
+    this.disableForm = this.disableForm.bind(this);
+    this.enableForm = this.enableForm.bind(this);
+    this.showLocationBubble = this.showLocationBubble.bind(this);
+    this.requestReferencias = this.requestReferencias.bind(this);
+  }
 
-		document.addEventListener('captchaExpired', () => {
-			this.disableForm()
-		})
+  componentDidMount() {
+    document.addEventListener('captchaSuccess', (event: any) => {
+      this.setLoading(true);
+      _CaptchaApi
+        .validate(event.detail.response)
+        .then(
+          response => {
+            if (response) {
+              this.enableForm();
+            } else {
+              this.disableForm();
+            }
+          },
+          response => {}
+        )
+        .then(() => {
+          this.setLoading(false);
+        });
+    });
 
-		const twinpizza: google.maps.LatLng =
-			new google.maps.LatLng(40.421223, -3.702151);
-		this.map = new google.maps.Map(this.refs.map, {
-			zoom: 6,
-			center: twinpizza
-		});
+    document.addEventListener('captchaExpired', () => {
+      this.disableForm();
+    });
 
-		this.autocomplete = new google.maps.places.Autocomplete(
-			this.refs.autocomplete_input, { types: ['geocode'] }
-		)
+    const twinpizza: google.maps.LatLng = new google.maps.LatLng(40.421223, -3.702151);
+    this.map = new google.maps.Map(this.refs.map, {
+      zoom: 6,
+      center: twinpizza
+    });
 
-		this.autocomplete.addListener('place_changed', this.fillInAddress.bind(this));
-	}
+    this.map.addListener('click', (e: google.maps.MouseEvent) => {
+      if (!this.state.disableForm) {
+        this.showLocationBubble(e.latLng);
+        this.requestReferencias(e.latLng);
+      }
+    });
 
-	setLoading(state: boolean) {
-		this.setState({ isLoading: state });
-	}
+    this.autocomplete = new google.maps.places.Autocomplete(
+      this.refs.autocomplete_input,
+      { types: ['geocode'] }
+    );
 
-	updateAddress(Event) {
-		const value = Event.target.value;
-		this.setState({ address: value });
-	}
+    this.autocomplete.addListener('place_changed', this.fillInAddress);
+  }
 
-	removeMarksFromMap(marker) {
-		this.markers.forEach(marker => { marker.setMap(null) });
-		this.markers.push(marker);
-	}
+  setLoading(state: boolean) {
+    this.setState({ isLoading: state });
+  }
 
-	fillInAddress() {
-		let place: google.maps.places.PlaceResult = this.autocomplete.getPlace();
+  updateAddress(Event) {
+    const value = Event.target.value;
+    this.setState({ address: value });
+  }
 
-		if (place.geometry) {
-			const [lat, long] = [place.geometry.location.lat(), place.geometry.location.lng()]
-			this.setState({ place, isLoading: true });
+  setIndividualMarker(marker) {
+    this.markers.forEach(marker => {
+      marker.setMap(null);
+    });
+    this.markers.push(marker);
+  }
 
+  createInfoWindow(content: string) {
+    return new google.maps.InfoWindow({ content });
+  }
 
-			_CatastroApi
-				.getReferencias(lat, long)
-				.then(
-				({ data }: { data: CatastroSimplifiedElement[] }) => {
-					this.props.setCatastroElements(data);
+  createMarker(location: google.maps.LatLng, onclick, title?: string) {
+    const _title = title || location.toString();
 
-					jump(`#${Sections.rc_selector}`)
-				},
-				response => { })
+    let marker = new google.maps.Marker({
+      map: this.map,
+      position: location,
+      title: _title
+    });
 
+    marker.addListener('click', onclick);
 
-			this.map.setCenter(
-				place.geometry.location
-			);
-			this.map.setZoom(20);
+    return marker;
+  }
 
-			goggleImageAsALink(suckDataFromGooglePlace(place))
-				.then(
-				(googleStaticLinks: any) => {
-					let infoWindow = new google.maps.InfoWindow({
-						content: `
-						<div class="title is-6">${place.formatted_address}</div> 
-						${this.renderStatic(googleStaticLinks.situation)}
-						${this.renderStreetView(googleStaticLinks.streetView)}`
-					})
+  showLocationBubble(place: google.maps.LatLng, title?: string) {
+    const _title = title || place.toString();
 
-					const marker = new google.maps.Marker({
-						map: this.map,
-						position: place.geometry.location,
-						title: 'Inmueble seleccionado!'
-					});
+    this.map.setCenter(place);
+    this.map.setZoom(20);
 
-					this.removeMarksFromMap(marker);
+    return new Promise((resolve, reject) => {
+      goggleImageAsALink(place).then(
+        googleStaticLinks => {
+          const info_window_content = `
+          <div class="title is-6">${_title}</div> 
+          ${this.renderStatic(googleStaticLinks.situation)}
+          ${this.renderStreetView(googleStaticLinks.streetView)}`;
 
-					this.markers = [marker];
-					infoWindow.open(this.map, marker);
+          let infoWindow = this.createInfoWindow(info_window_content);
+          const marker = this.createMarker(place, function() {
+            infoWindow.open(this.map, marker);
+          });
 
-					marker.addListener('click', function () {
-						infoWindow.open(this.map, marker);
-					});
-				})
-				.then(() => { this.setState({ isLoading: false }) })
-		}
-	}
+          this.setIndividualMarker(marker);
 
-	private disableForm = () => {
-		this.setState({ disableForm: true });
-	}
+          this.markers = [marker];
 
-	private enableForm = () => {
-		this.setState({ disableForm: false });
-	}
+          infoWindow.open(this.map, marker);
+          resolve();
+        },
+        err => reject()
+      );
+    });
+  }
 
-	private renderStatic(url: string) {
-		return (
-			`<a href="${url}" 
+  fillInAddress() {
+    let place: google.maps.places.PlaceResult = this.autocomplete.getPlace();
+
+    if (place.geometry) {
+      this.setState({ place, isLoading: true });
+
+      this.requestReferencias(place.geometry.location);
+
+      this.showLocationBubble(place.geometry.location, place.formatted_address)
+        .then()
+        .then(() => this.setState({ isLoading: false }));
+    }
+  }
+
+  requestReferencias(place: google.maps.LatLng) {
+    const [lat, long] = [place.lat(), place.lng()];
+
+    _CatastroApi.getReferencias(lat, long).then(
+      data => {
+        this.props.setCatastroElements(data);
+        jump(`#${Sections.rc_selector}`);
+      },
+      response => {}
+    );
+  }
+
+  private disableForm() {
+    this.setState({ disableForm: true });
+  }
+
+  private enableForm() {
+    this.setState({ disableForm: false });
+  }
+
+  private renderStatic(url: string) {
+    return `<a href="${url}" 
 				download="${this.state.place.formatted_address}_SIT.jpg" 
 				target="_blank" class="button is-primary">
 				<span class="icon is-small">
 		 			 <i class="fa fa-map-marker"></i>
 				</span>
 				<span>Mapa situación</span>						
-	 		 </a>`)
-	}
+	 		 </a>`;
+  }
 
-	private renderStreetView(url: string) {
-		return (
-			`<a href="${url}" 
+  private renderStreetView(url: string) {
+    return `<a href="${url}" 
 				download="${this.state.place.formatted_address}_FACHADA.jpg" 
 				target="_blank" class="button is-info">
 				<span class="icon is-small">
 		 			 <i class="fa fa-camera"></i>
 				</span>
 				<span>Foto fachada</span>						
-	 		 </a>`)
-	}
+	 		 </a>`;
+  }
 
-	private isLoadingWrapper(isLoading: boolean): string {
-		return isLoading ? theme.isLoading : '';
-	}
+  private isLoadingWrapper(isLoading: boolean): string {
+    return isLoading ? theme.isLoading : '';
+  }
 
+  render() {
+    const Captcha = () => {
+      if (this.state && this.state.disableForm) {
+        return (
+          <div
+            key="recaptcha"
+            className={theme.captcha}
+            data-sitekey={process.env.GOOGLE_CAPTCHA_KEY}
+            data-callback="captchaSuccess"
+            data-expired-callback="captchaExpired"
+          />
+        );
+      } else return null;
+    };
 
-	render() {
-		const Captcha = () => {
-			if (this.state && this.state.disableForm) {
-				return (<div key='recaptcha'
-					className={theme.captcha}
-					data-sitekey={process.env.GOOGLE_CAPTCHA_KEY}
-					data-callback='captchaSuccess'
-					data-expired-callback='captchaExpired'></div>)
-			} else
-				return null
-		}
+    return (
+      <section id="address_form" className={theme.root}>
+        <div ref="map" key="map" className={[theme.container, theme.map].join(' ')} />
+        <div className={[theme.form_wrapper].join(' ')}>
+          <div
+            className={[
+              theme.input_wrapper,
+              this.isLoadingWrapper(this.state.isLoading)
+            ].join(' ')}
+          >
+            <input
+              disabled={this.state.disableForm}
+              ref="autocomplete_input"
+              type="text"
+              className={theme.input}
+              placeholder="Inserta tu dirección"
+              value={this.state.address}
+              onChange={this.updateAddress.bind(this)}
+            />
+          </div>
 
-		return (
-			<section
-				id='address_form'
-				className={theme.root}>
-				<div ref='map'
-					key='map'
-					className={[theme.container, theme.map].join(' ')}></div>
-				<div className={
-					[theme.form_wrapper].join(' ')}>
-					<div className={
-						[theme.input_wrapper, this.isLoadingWrapper(this.state.isLoading)].join(' ')
-					}>
-						<input
-							disabled={this.state.disableForm}
-							ref='autocomplete_input'
-							type='text'
-							className={theme.input}
-							placeholder='Inserta tu dirección'
-							value={this.state.address}
-							onChange={this.updateAddress.bind(this)} />
-					</div>
-
-					<Captcha />
-				</div>
-			</section>
-		)
-	}
+          <Captcha />
+        </div>
+      </section>
+    );
+  }
 }

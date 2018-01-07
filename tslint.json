@@ -21,7 +21,7 @@
         "switch-default": true,
         "indent": [
             true,
-            "tabs"
+            "spaces"
         ],
         "ban": [
             true,

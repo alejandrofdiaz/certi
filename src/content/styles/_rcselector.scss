@@ -1,43 +1,56 @@
 @import 'variables';
 
-.rcselector{
-	&__body{
-		height: 300px;
-		overflow-y: auto;
-	}
-	&__container{}
-	&__element{
+.rcselector {
+  &__body {
+    height: 300px;
+    overflow-y: auto;
+  }
+  &__container {
+  }
+  &__element {
+    cursor: pointer;
 
-		cursor: pointer;
+    &:hover {
+      .rcselector__element-address {
+        // font-size: 1.1em;
+        color: $grey-light;
+      }
+    }
 
-		&:hover{
-			.rcselector__element-address{
-				font-size: 1.1em;	
-				color: $grey-light;			
-			}
-		}
+    &-distance {
+      width: 9rem;
+      margin-right: 1em;
+      > .fa {
+        margin-left: 1em;
+      }
 
-		&-distance{
-			width: 9rem;
-			margin-right: 1em;			
-			>.fa{
-				margin-left: 1em;
-			}
-			
-			@media (min-width: $desktop) {
-				display: inline-block;
-			}				
-		}
+      @media (min-width: $desktop) {
+        display: inline-block;
+      }
+    }
 
-		&-address{
-			transition: font-size .2s linear;
-			
-			display: block;
-			padding: .5em 0;
-			@media (min-width: $desktop) {
-				display: inline;
-				padding: 0;
-			}	
-		}
-	}
+    &-address {
+      transition: font-size 0.2s linear;
+
+      display: block;
+      padding: 0.5em 0;
+      @media (min-width: $desktop) {
+        margin-left: 1em;
+
+        display: inline;
+        padding: 0;
+      }
+    }
+    &-id {
+      text-transform: uppercase;
+      cursor: text;
+      > .fa {
+        margin-left: 1em;
+      }
+
+      @media (min-width: $desktop) {
+        display: inline-block;
+      }
+    }
+  }
 }
