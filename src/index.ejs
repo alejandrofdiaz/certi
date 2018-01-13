@@ -3,141 +3,179 @@
       lang="es">
 
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible"
-	      content="IE=edge,chrome=1">
-	<title></title>
-	<meta name="description"
-	      content="Certi">
-	<meta name="viewport"
-	      content="width=device-width, initial-scale=1">
-	<script src='https://www.google.com/recaptcha/api.js'></script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=<%= process.env.GOOGLE_API_KEY %>&libraries=places"></script>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible"
+        content="IE=edge,chrome=1">
+  <title></title>
+  <meta name="description"
+        content="Certi">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1">
+  <script src='https://www.google.com/recaptcha/api.js'></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=<%= process.env.GOOGLE_API_KEY %>&libraries=places"></script>
 </head>
 
 <body>
-	<nav class="navbar is-transparent fixed"
-	     role="navigation"
-	     aria-label="main navigation">
-		<div class="navbar-brand">
-			<a class="navbar-item"
-			   href="http://bulma.io">
-					<img src="./assets/logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="112" height="28">
-				  </a>
-			<button class="button navbar-burger"
-			        data-target="navMenu">
-					<span></span>
-					<span></span>
-					<span></span>
-				  </button>
-		</div>
-		<div class="navbar-menu"
-		     id="navMenu">
-			<a class="navbar-item"
-			   id="info_link"
-			   data-target="info">Info</a>
-			<a class="navbar-item"
-			   id="data_link"
-			   data-target="address_form">Datos</a>
-			<a class="navbar-item"
-			   id="contact_link"
-			   data-target="contact">Contacto</a>
-		</div>
-	</nav>
-	<section id="info"
-	         class="hero is-primary is-fullheight">
-		<div class="hero--parallax hero-background-image--main"></div>
-		<div class="hero-body">
-			<div class="container">
-				<h1 class="title has-text-centered">
-					Comienza tus certificados energéticos con fuerza, la fuerza de certi. </h1>
-				<h2 class="subtitle has-text-centered">
-					Certi te permite obtener datos suficientes de forma automática para comenzar a realizar el certificado energético.
-				</h2>
-				<h3 class="subtitle center">
-					<a id="init_form"
-					   class="button is-primary is-inverted is-outlined is-large">Inicio</a>
-				</h3>
-			</div>
-		</div>
-	</section>
-	<section class="hero is-dark">
-		<div class="hero-body">
-			<nav class="level">
-				<div class="level-item has-text-centered">
-					<div>
-						<p class="heading">Catastro</p>
-						<p class="title"><i class="fa fa-building"
-							   aria-hidden="true"></i>
-						</p>
-					</div>
-				</div>
-				<div class="level-item has-text-centered">
-					<div>
-						<p class="heading">Google Maps</p>
-						<p class="title"><i class="fa fa-google"
-							   aria-hidden="true"></i>
-						</p>
-					</div>
-				</div>
-				<div class="level-item has-text-centered">
-					<div>
-						<p class="heading">Usuarios</p>
-						<p class="title">456K</p>
-					</div>
-				</div>
-			</nav>
-		</div>
-	</section>
-	<div id="app">
-	</div>
-	<section id="contact"
-	         class="hero is-dark is-medium">
-		<div class="hero--parallax hero-background-image--contact"></div>
-		<div class="hero-body">
-			<div class="container has-text-centered">
-				<h1 class="title">Contáctanos</h1>
-				<h2 class="subtitle">Síguenos y entérate de las novedades!</h2>
-			</div>
-		</div>
-		<div class="hero-foot">
-			<nav class="tabs is-large is-centered is-boxed">
-				<div class="container">
-					<ul>
-						<li><a href="https://twitter.com"><span class="icon is-small"><i class="fa fa-twitter"></i></span><span>Twitter</span></a></li>
-						<li><a href="https://linkedin.com"><span class="icon is-small"><i class="fa fa-linkedin"></i></span><span>Linkedin</span></a></li>
-						<li><a href="https://twitter.com"><span class="icon is-small"><i class="fa fa-envelope" aria-hidden="true"></i></span><span>Mail</span></a></li>
-					</ul>
-				</div>
-			</nav>
-		</div>
-	</section>
-	<footer class="footer">
-		<div class="container">
-			<div class="content has-text-centered">
-				<p>
-					<strong>Certi</strong> by <a href="http://jgthms.com">Alejandro Frías</a>. The source code is licensed
-					<a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
-				</p>
-				<p>
-					<a class="icon"
-					   href="https://github.com/alejandrofdiaz">
-				<i class="fa fa-github"></i>
-			  </a>
-				</p>
-			</div>
-		</div>
-	</footer>
-	<script>
-		function captchaSuccess(response) {
-			var captchaSuccess = new CustomEvent('captchaSuccess', { detail: { response: response } });
-			document.dispatchEvent(captchaSuccess)
-		}
-		function captchaExpired(a, b, c) {
-			var captchaExpired = new Event('captchaExpired');
-			document.dispatchEvent(captchaExpired)
-		}
-	</script>
+  <div id="notification-alert"
+       class="notification is-danger header-warning">
+    <button class="delete"
+            id="notification-alert-dismiss"></button>
+    El servicio del
+    <u>catastro</u> es
+    <b>ajeno a esta web</b>, por lo tanto podría verse interrumpido alguno de sus servicios a lo largo del día y en determinados días de la semana. Normalmente la captura de datos no protegidos del catastro está disponible en
+    <u>horario laboral de lunes a viernes</u>.
+  </div>
+  <nav class="navbar is-transparent fixed"
+       role="navigation"
+       aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item"
+         href="http://bulma.io">
+        <img src="./assets/logo.png"
+             alt="Bulma: a modern CSS framework based on Flexbox"
+             width="112"
+             height="28">
+      </a>
+      <button class="button navbar-burger"
+              data-target="navMenu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div class="navbar-menu"
+         id="navMenu">
+      <a class="navbar-item"
+         id="info_link"
+         data-target="info">Info</a>
+      <a class="navbar-item"
+         id="data_link"
+         data-target="address_form">Datos</a>
+      <a class="navbar-item"
+         id="contact_link"
+         data-target="contact">Contacto</a>
+    </div>
+  </nav>
+  <section id="info"
+           class="hero is-primary is-fullheight">
+    <div class="hero--parallax hero-background-image--main"></div>
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title has-text-centered">
+          Comienza tus certificados energéticos con fuerza, la fuerza de certi. </h1>
+        <h2 class="subtitle has-text-centered">
+          Certi te permite obtener datos suficientes de forma automática para comenzar a realizar el certificado energético.
+        </h2>
+        <h3 class="subtitle center">
+          <a id="init_form"
+             class="button is-primary is-inverted is-outlined is-large">Inicio</a>
+        </h3>
+      </div>
+    </div>
+  </section>
+  <section class="hero is-dark">
+    <div class="hero-body">
+      <nav class="level">
+        <div class="level-item has-text-centered">
+          <div>
+            <p class="heading">Catastro</p>
+            <p class="title">
+              <i class="fa fa-building"
+                 aria-hidden="true"></i>
+            </p>
+          </div>
+        </div>
+        <div class="level-item has-text-centered">
+          <div>
+            <p class="heading">Google Maps</p>
+            <p class="title">
+              <i class="fa fa-google"
+                 aria-hidden="true"></i>
+            </p>
+          </div>
+        </div>
+        <div class="level-item has-text-centered">
+          <div>
+            <p class="heading">Usuarios</p>
+            <p class="title">456K</p>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </section>
+  <div id="app">
+  </div>
+  <section id="contact"
+           class="hero is-dark is-medium">
+    <div class="hero--parallax hero-background-image--contact"></div>
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <h1 class="title">Contáctanos</h1>
+        <h2 class="subtitle">Síguenos y entérate de las novedades!</h2>
+      </div>
+    </div>
+    <div class="hero-foot">
+      <nav class="tabs is-large is-centered is-boxed">
+        <div class="container">
+          <ul>
+            <li>
+              <a href="https://twitter.com">
+                <span class="icon is-small">
+                  <i class="fa fa-twitter"></i>
+                </span>
+                <span>Twitter</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://linkedin.com">
+                <span class="icon is-small">
+                  <i class="fa fa-linkedin"></i>
+                </span>
+                <span>Linkedin</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://twitter.com">
+                <span class="icon is-small">
+                  <i class="fa fa-envelope"
+                     aria-hidden="true"></i>
+                </span>
+                <span>Mail</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </section>
+  <footer class="footer">
+    <div class="container">
+      <div class="content has-text-centered">
+        <p>
+          <strong>Certi</strong> by
+          <a href="http://jgthms.com">Alejandro Frías</a>. The source code is licensed
+          <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content is licensed
+          <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
+        </p>
+        <p>
+          <a class="icon"
+             href="https://github.com/alejandrofdiaz">
+            <i class="fa fa-github"></i>
+          </a>
+        </p>
+      </div>
+    </div>
+  </footer>
+  <script>
+    function captchaSuccess(response) {
+      var captchaSuccess = new CustomEvent('captchaSuccess', { detail: { response: response } });
+      document.dispatchEvent(captchaSuccess)
+    }
+    function captchaExpired(a, b, c) {
+      var captchaExpired = new Event('captchaExpired');
+      document.dispatchEvent(captchaExpired)
+    }
+  </script>
 </body>
 
 </html>

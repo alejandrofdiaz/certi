@@ -45,4 +45,19 @@ document.addEventListener('DOMContentLoaded', function() {
   initButton.addEventListener('click', () => {
     jump(`#${ADDRESS_FROM}`);
   });
+
+  /**
+   * Dismiss Alert button binding
+   */
+  const ALERT_DISMISS_ID = 'notification-alert-dismiss';
+  const dissmissAlertButton = document.getElementById(ALERT_DISMISS_ID);
+
+  dissmissAlertButton.onclick = dissmissAlerNotification;
 });
+
+function dissmissAlerNotification() {
+  const ALERT_ID = 'notification-alert';
+  const alertElement = document.getElementById(ALERT_ID);
+  alertElement.className += ' hidden';
+  // alertElement.style.top = '-100%';
+}

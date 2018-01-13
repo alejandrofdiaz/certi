@@ -1,0 +1,21 @@
+.header-warning {
+  margin: 0;
+  position: absolute;
+  top: 0;
+  z-index: 2;
+
+  transition: top 0.5s ease;
+  &.hidden {
+    animation: hide 0.5s;
+    top: -100%;
+  }
+}
+
+@keyframes hide {
+  0% {
+    top: 0px;
+  }
+  100% {
+    top: -100%;
+  }
+}

@@ -9,6 +9,10 @@
 @import 'select';
 @import 'rcselector';
 
-*{
-	text-transform: lowercase;
+* {
+  text-transform: lowercase;
+}
+
+body > * {
+  transition: position 0.5s ease;
 }
