@@ -1,48 +1,48 @@
 import jump from 'jump.js';
 
 //Hamburger menus
-document.addEventListener('DOMContentLoaded', function () {
-	// Get all "navbar-burger" elements
-	const $navbarBurgers =
-		Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+document.addEventListener('DOMContentLoaded', function() {
+  // Get all "navbar-burger" elements
+  const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
 
-	// Check if there are any navbar burgers
-	if ($navbarBurgers.length > 0) {
-		// Add a click event on each of them
-		$navbarBurgers.forEach(function ($el) {
-			$el.addEventListener('click', function () {
-				// Get the target from the "data-target" attribute
-				let target = $el.dataset.target,
-					$target = document.getElementById(target);
+  // Check if there are any navbar burgers
+  if ($navbarBurgers.length > 0) {
+    // Add a click event on each of them
+    $navbarBurgers.forEach(function($el) {
+      $el.addEventListener('click', function() {
+        // Get the target from the "data-target" attribute
+        let target = $el.dataset.target,
+          $target = document.getElementById(target);
 
-				// Toggle the class on both the "navbar-burger" and the "navbar-menu"
-				$el.classList.toggle('is-active');
-				$target.classList.toggle('is-active');
-			});
-		});
-	}
+        // Toggle the class on both the "navbar-burger" and the "navbar-menu"
+        $el.classList.toggle('is-active');
+        $target.classList.toggle('is-active');
+      });
+    });
+  }
 
-	/**
-	 * SmoothScroll script
-	 */
+  /**
+   * SmoothScroll script
+   */
 
-	const _links =
-		Array.prototype.slice.call(document.querySelectorAll('.navbar-item'), 0);
+  const _links = Array.prototype.slice.call(document.querySelectorAll('.navbar-item'), 0);
 
-	if (_links.length > 0) {
-		_links.forEach((el) => {
-			el.addEventListener('click', () => {
-				jump(`#${el.dataset.target}`)
-			})
-		})
-	}
+  if (_links.length > 0) {
+    _links.forEach(el => {
+      el.addEventListener('click', () => {
+        jump(`#${el.dataset.target}`);
+      });
+    });
+  }
 
-	/**
-	 * Init Button
-	 */
-	const INIT_LINK = 'init_form',
-		ADDRESS_FROM = 'address_form',
-		initButton: HTMLElement = document.getElementById(INIT_LINK);
+  /**
+   * Init Button
+   */
+  const INIT_LINK = 'init_form',
+    ADDRESS_FROM = 'address_form',
+    initButton: HTMLElement = document.getElementById(INIT_LINK);
 
-	initButton.addEventListener('click', () => { jump(`#${ADDRESS_FROM}`) })
+  initButton.addEventListener('click', () => {
+    jump(`#${ADDRESS_FROM}`);
+  });
 });

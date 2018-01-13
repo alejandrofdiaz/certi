@@ -26,15 +26,13 @@ class CatastroApi {
 
   getReferencias(lat: number, long: number): Promise<CatastroSimplifiedElement[]> {
     return new Promise((resolve, reject) => {
-      axios
-        .get('http://localhost:8080/getRC', { params: { lat, long } })
-        .then(response => {
-          const data = response.data.map(e => {
-            return new CatastroSimplifiedElement(e);
-          });
-
-          resolve(data);
+      axios.get('http://localhost:8080/getRC', { params: { lat, long } }).then(response => {
+        const data = response.data.map(e => {
+          return new CatastroSimplifiedElement(e);
         });
+
+        resolve(data);
+      });
     });
   }
 
