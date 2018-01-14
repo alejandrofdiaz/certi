@@ -3,10 +3,10 @@ import { LocationExchange } from '../model/location.model';
 import axios from './ws';
 import _axios from 'axios';
 
-interface CoordinatesS {
-  lat: number;
-  long: number;
-}
+// interface CoordinatesS {
+//   lat: number;
+//   long: number;
+// }
 
 interface GoogleStaticApiParams {
   zoom?: number;
@@ -178,10 +178,10 @@ function goggleImageAsALink(place: google.maps.LatLng): Promise<GoogleStaticImag
 }
 
 function _imageEncode(arrayBuffer: ArrayBuffer, mimetype: string) {
-  let u8 = new Uint8Array(arrayBuffer),
-    b64encoded = btoa(
-      [].reduce.call(new Uint8Array(arrayBuffer), (p, c) => p + String.fromCharCode(c), '')
-    );
+  // let u8 = new Uint8Array(arrayBuffer);
+  let b64encoded = btoa(
+    [].reduce.call(new Uint8Array(arrayBuffer), (p, c) => p + String.fromCharCode(c), '')
+  );
   return 'data:' + mimetype + ';base64,' + b64encoded;
 }
 

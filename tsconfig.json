@@ -1,15 +1,16 @@
 // tsconfig.json
 {
-	"compilerOptions": {
-		"jsx": "preserve",
-		"target": "es6",
-		"module": "es6",
-		"moduleResolution": "node",
-		"typeRoots": [
-			"./node_modules/@types"
-		]
-	},
-	"include": [
-		"./src/**/*"
-	]
+  "compilerOptions": {
+    "jsx": "preserve",
+    "target": "es6",
+    "module": "es6",
+    "moduleResolution": "node",
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
+    "noUnusedLocals": true
+  },
+  "include": [
+    "./src/**/*"
+  ]
 }

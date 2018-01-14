@@ -5,8 +5,6 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --config=dev.webpack.config.js",
-    "start:server": "pm2 start ws/server.js --watch --name certiws",
-    "stop:server": "pm2 stop ws/server.js",
     "build:prod": "webpack --config=prod.webpack.config.js"
   },
   "repository": {
@@ -27,19 +25,12 @@
   "dependencies": {
     "axios": "^0.16.2",
     "babel-polyfill": "^6.26.0",
-    "body-parser": "^1.18.2",
     "bulma": "^0.6.0",
-    "express": "^4.16.1",
     "font-awesome": "^4.7.0",
     "jump.js": "^1.0.2",
     "lodash": "^4.17.4",
-    "puppeteer": "^0.13.0",
     "react": "^16.0.0",
-    "react-autosuggest": "^9.3.2",
-    "react-dom": "^16.0.0",
-    "request": "^2.83.0",
-    "utm": "^1.1.1",
-    "xml-js": "^1.5.1"
+    "react-dom": "^16.0.0"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
@@ -61,8 +52,7 @@
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^0.11.2",
     "html-webpack-plugin": "^2.30.1",
-    "node-sass": "^4.5.3",
-    "pm2": "^2.7.1",
+    "node-sass": "^4.7.2",
     "postcss": "^6.0.12",
     "postcss-loader": "^2.0.6",
     "sass-loader": "^6.0.6",

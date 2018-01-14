@@ -1,150 +1,147 @@
 const path = require('path'),
-	webpack = require('webpack'),
-	HtmlWebpackPlugin = require('html-webpack-plugin'),
-	ExtractTextPlugin = require('extract-text-webpack-plugin'),
-	CopyWebpackPlugin = require('copy-webpack-plugin'),
-	BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
-	basePath = __dirname;
+  webpack = require('webpack'),
+  HtmlWebpackPlugin = require('html-webpack-plugin'),
+  ExtractTextPlugin = require('extract-text-webpack-plugin'),
+  CopyWebpackPlugin = require('copy-webpack-plugin'),
+  BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
+  basePath = __dirname;
 
 module.exports = {
-	resolve: {
-		extensions: ['.js', '.ts', '.tsx', '.css'],
-		alias: {
-			bulma: path.resolve(__dirname, 'node_modules/bulma/')
-		}
-	},
-	entry: {
-		app: './src/index.tsx',
-		vendor: [
-			'react',
-			'react-dom',
-			'babel-polyfill',
-			'axios'
-		],
-		style: [
-			'./src/styles',
-			'./node_modules/font-awesome/scss/font-awesome.scss'
-		],
-		eeStyles: [
-			'./ws/etiqueta_rendering/_etiquetaEnergetica.scss'
-		]
-	},
-	output: {
-		path: path.join(basePath, 'dist'),
-		filename: '[chunkhash][name].js'
-	},
-	module: {
-		rules: [
-			{
-				test: /\.jsx?$/,
-				use: [{
-					loader: 'babel-loader'
-				}]
-			},
-			{
-				test: /\.tsx?$/,
-				exclude: /node_modules/,
-				use: [{
-					loader: 'babel-loader'
-				},
-				{
-					loader: 'ts-loader'
-				},
-				{
-					loader: 'tslint-loader'
-				}
-				]
-			},
-			{
-				test: /\.(woff2?|svg|png|jpe?g)$/,
-				loader: 'url-loader?limit=10000'
-			},
-			{
-				test: /\.(ttf|eot)$/,
-				loader: 'file-loader'
-			}]
-	},
-	devtool: 'inline-source-map',
-	devServer: {
-		hot: false,
-		quiet: false,
-		inline: true,
-		allowedHosts: [
-			'http://localhost:8080'
-		],
-		host: 'localhost',
-		port: 3000,
-		proxy: {
-			'/': {
-				target: 'http://test:8080',
-				secure: false,
-				pathRewrite: { "^/": "" }
-			}
-		}
-	},
-	plugins: [
-		new HtmlWebpackPlugin({
-			filename: 'index.html', //Name of file in ./dist/
-			template: './src/index.ejs', //Name of template in ./src
-			hash: true,
-			favicon: 'favicon.ico',
-			excludeChunks: ['eeStyles']
-		}),
-		new HtmlWebpackPlugin({
-			filename: 'etiquetaEn.html',
-			template: './ws/etiqueta_rendering/etiquetaEn.html',
-			hash: true,
-			chunksSortMode: 'manual',
-			chunks: ['manifest', 'bootstrap', 'eeStyles']
-		}),
-		new webpack.ProvidePlugin({
-			axios: 'axios'
-		}),
-		new webpack.optimize.CommonsChunkPlugin({
-			names: ['manifest', 'bootstrap', 'vendor', 'app'].reverse()
-		}),
-		new CopyWebpackPlugin([{
-			from: 'src/assets',
-			to: 'assets'
-		}]),
-		new CopyWebpackPlugin([{
-			from: 'favicon.ico',
-			to: 'favicon.ico'
-		}]),
-		new ExtractTextPlugin({
-			filename: '[chunkhash].[name].css',
-			disable: false,
-			allChunks: true
-		}),
-		new BundleAnalyzerPlugin({  // Can be `server`, `static` or `disabled`. 
-			// In `server` mode analyzer will start HTTP server to show bundle report. 
-			// In `static` mode single HTML file with bundle report will be generated. 
-			// In `disabled` mode you can use this plugin to just generate Webpack Stats JSON file by setting `generateStatsFile` to `true`. 
-			analyzerMode: 'static',
-			// Host that will be used in `server` mode to start HTTP server. 
-			// analyzerHost: '127.0.0.1',
-			// // Port that will be used in `server` mode to start HTTP server. 
-			// analyzerPort: 8888,
-			// Path to bundle report file that will be generated in `static` mode. 
-			// Relative to bundles output directory. 
-			reportFilename: 'report.html',
-			// Module sizes to show in report by default. 
-			// Should be one of `stat`, `parsed` or `gzip`. 
-			// See "Definitions" section for more information. 
-			defaultSizes: 'parsed',
-			// Automatically open report in default browser 
-			openAnalyzer: false,
-			// If `true`, Webpack Stats JSON file will be generated in bundles output directory 
-			generateStatsFile: false,
-			// Name of Webpack Stats JSON file that will be generated if `generateStatsFile` is `true`. 
-			// Relative to bundles output directory. 
-			statsFilename: 'stats.json',
-			// Options for `stats.toJson()` method. 
-			// For example you can exclude sources of your modules from stats file with `source: false` option. 
-			// See more options here: https://github.com/webpack/webpack/blob/webpack-1/lib/Stats.js#L21 
-			statsOptions: null,
-			// Log level. Can be 'info', 'warn', 'error' or 'silent'. 
-			logLevel: 'info'
-		})
-	],
-}
+  resolve: {
+    extensions: ['.js', '.ts', '.tsx', '.css'],
+    alias: {
+      bulma: path.resolve(__dirname, 'node_modules/bulma/')
+    }
+  },
+  entry: {
+    app: './src/index.tsx',
+    vendor: ['react', 'react-dom', 'babel-polyfill', 'axios'],
+    style: ['./src/styles', './node_modules/font-awesome/scss/font-awesome.scss']
+    // eeStyles: ['./ws/etiqueta_rendering/_etiquetaEnergetica.scss']
+  },
+  output: {
+    path: path.join(basePath, 'dist'),
+    filename: '[chunkhash][name].js'
+  },
+  module: {
+    rules: [
+      {
+        test: /\.jsx?$/,
+        use: [
+          {
+            loader: 'babel-loader'
+          }
+        ]
+      },
+      {
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'babel-loader'
+          },
+          {
+            loader: 'ts-loader'
+          },
+          {
+            loader: 'tslint-loader'
+          }
+        ]
+      },
+      {
+        test: /\.(woff2?|svg|png|jpe?g)$/,
+        loader: 'url-loader?limit=10000'
+      },
+      {
+        test: /\.(ttf|eot)$/,
+        loader: 'file-loader'
+      }
+    ]
+  },
+  devtool: 'inline-source-map',
+  devServer: {
+    hot: false,
+    quiet: false,
+    inline: true,
+    allowedHosts: ['http://localhost:8080'],
+    host: 'localhost',
+    port: 3000,
+    proxy: {
+      '/': {
+        target: 'http://test:8080',
+        secure: false,
+        pathRewrite: { '^/': '' }
+      }
+    }
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      filename: 'index.html', //Name of file in ./dist/
+      template: './src/index.ejs', //Name of template in ./src
+      hash: true,
+      favicon: 'favicon.ico',
+      excludeChunks: ['eeStyles']
+    }),
+    // new HtmlWebpackPlugin({
+    //   filename: 'etiquetaEn.html',
+    //   template: './ws/etiqueta_rendering/etiquetaEn.html',
+    //   hash: true,
+    //   chunksSortMode: 'manual',
+    //   chunks: ['manifest', 'bootstrap', 'eeStyles']
+    // }),
+    new webpack.ProvidePlugin({
+      axios: 'axios'
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      names: ['manifest', 'bootstrap', 'vendor', 'app'].reverse()
+    }),
+    new CopyWebpackPlugin([
+      {
+        from: 'src/assets',
+        to: 'assets'
+      }
+    ]),
+    new CopyWebpackPlugin([
+      {
+        from: 'favicon.ico',
+        to: 'favicon.ico'
+      }
+    ]),
+    new ExtractTextPlugin({
+      filename: '[chunkhash].[name].css',
+      disable: false,
+      allChunks: true
+    }),
+    new BundleAnalyzerPlugin({
+      // Can be `server`, `static` or `disabled`.
+      // In `server` mode analyzer will start HTTP server to show bundle report.
+      // In `static` mode single HTML file with bundle report will be generated.
+      // In `disabled` mode you can use this plugin to just generate Webpack Stats JSON file by setting `generateStatsFile` to `true`.
+      analyzerMode: 'static',
+      // Host that will be used in `server` mode to start HTTP server.
+      // analyzerHost: '127.0.0.1',
+      // // Port that will be used in `server` mode to start HTTP server.
+      // analyzerPort: 8888,
+      // Path to bundle report file that will be generated in `static` mode.
+      // Relative to bundles output directory.
+      reportFilename: 'report.html',
+      // Module sizes to show in report by default.
+      // Should be one of `stat`, `parsed` or `gzip`.
+      // See "Definitions" section for more information.
+      defaultSizes: 'parsed',
+      // Automatically open report in default browser
+      openAnalyzer: false,
+      // If `true`, Webpack Stats JSON file will be generated in bundles output directory
+      generateStatsFile: false,
+      // Name of Webpack Stats JSON file that will be generated if `generateStatsFile` is `true`.
+      // Relative to bundles output directory.
+      statsFilename: 'stats.json',
+      // Options for `stats.toJson()` method.
+      // For example you can exclude sources of your modules from stats file with `source: false` option.
+      // See more options here: https://github.com/webpack/webpack/blob/webpack-1/lib/Stats.js#L21
+      statsOptions: null,
+      // Log level. Can be 'info', 'warn', 'error' or 'silent'.
+      logLevel: 'info'
+    })
+  ]
+};
