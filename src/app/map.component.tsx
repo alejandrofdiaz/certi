@@ -50,7 +50,6 @@ export class Map extends React.Component<Props, State> {
 
   constructor(props) {
     super(props);
-    this.map;
     this.markers = [];
     this.state = {
       isLoading: false,

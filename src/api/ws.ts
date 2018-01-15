@@ -1,6 +1,8 @@
 import _axios from 'axios';
 import { _CaptchaApi } from './captcha.api';
 
+declare const WS_URL: string;
+
 let axios = _axios.create();
 
 axios.interceptors.request.use(
@@ -15,4 +17,9 @@ axios.interceptors.request.use(
   }
 );
 
+function getFromWs(action: string, params: any): Promise<any> {
+  return axios.get(`${WS_URL}${action}`, { params });
+}
+
+export { getFromWs };
 export default axios;

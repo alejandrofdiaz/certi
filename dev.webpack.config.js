@@ -1,7 +1,9 @@
-const webpack = require('webpack'),
-  webpackMerge = require('webpack-merge'),
-  ExtractTextPlugin = require('extract-text-webpack-plugin'),
-  commonConfig = require('./base.webpack.config.js');
+const webpack = require('webpack');
+const webpackMerge = require('webpack-merge');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const commonConfig = require('./base.webpack.config.js');
+
+const REMOTE_URL = 'http://localhost:8080/';
 
 module.exports = () =>
   webpackMerge(commonConfig, {
@@ -64,7 +66,8 @@ module.exports = () =>
           NODE_ENV: JSON.stringify('development'),
           GOOGLE_API_KEY: JSON.stringify('AIzaSyDbtEXX5KAQWgVfRUoDFj5BOkPcUHt8j2w'),
           GOOGLE_CAPTCHA_KEY: JSON.stringify('6LcXNTMUAAAAAF6VkfDnlA-K4RAPsg6e7vs_iWsg')
-        }
+        },
+        WS_URL: JSON.stringify(REMOTE_URL)
       })
     ]
   });
