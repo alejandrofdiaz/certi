@@ -1,11 +1,9 @@
 {
-	"presets": [
-		"env",
-		"react"
-	],
-	"plugins": [
-		"transform-object-rest-spread",
-		"transform-react-inline-elements",
-		"transform-object-assign"
-	]
+  "presets": ["env", "react"],
+  "plugins": [
+    "transform-object-rest-spread",
+    "transform-react-inline-elements",
+    "transform-object-assign",
+    "lodash"
+  ]
 }
