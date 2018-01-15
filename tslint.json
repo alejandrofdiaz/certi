@@ -1,38 +1,12 @@
 {
-    "rulesDirectory": [
-        "src"
-    ],
-    "rules": {
-        "max-line-length": {
-            "options": [
-                90
-            ]
-        },
-        "quotemark": [
-            "single",
-            "avoid-template"
-        ],
-        "no-console": [
-            true,
-            "log",
-            "warning"
-        ],
-        "no-var-keyword": true,
-        "switch-default": true,
-        "indent": [
-            true,
-            "spaces"
-        ],
-        "ban": [
-            true,
-            "google"
-        ]
+  "rules": {
+    "no-console": {
+      "severity": "warning"
     },
-    "jsRules": {
-        "max-line-length": {
-            "options": [
-                90
-            ]
-        }
+    "no-unused-variable": [true],
+    "no-unused-expression": [true],
+    "quotemark": {
+      "options": ["single", "avoid-escape"]
     }
+  }
 }

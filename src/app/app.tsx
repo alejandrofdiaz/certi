@@ -1,5 +1,5 @@
 import * as React from 'react';
-import AddressForm from './address.component';
+// import AddressForm from './address.component';
 import { Map } from './map.component';
 import { RCSelector } from './rcselector.component';
 

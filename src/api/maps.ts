@@ -3,10 +3,10 @@ import { LocationExchange } from '../model/location.model';
 import axios from './ws';
 import _axios from 'axios';
 
-interface CoordinatesS {
-  lat: number;
-  long: number;
-}
+// interface CoordinatesS {
+//   lat: number;
+//   long: number;
+// }
 
 interface GoogleStaticApiParams {
   zoom?: number;
@@ -62,8 +62,7 @@ function getStreetViewStatic(
     width: params.width && params.width < 640 ? params.width : 640,
     format: params.format || 'jpg',
     fov: params.fov && params.fov > 0 ? params.fov : 120, //Máxima apertura
-    pitch:
-      params.pitch && params.pitch > -90 && params.pitch < 90 ? params.pitch : 0
+    pitch: params.pitch && params.pitch > -90 && params.pitch < 90 ? params.pitch : 0
   };
 
   if (isString(location)) {
@@ -85,12 +84,8 @@ function getStreetViewStatic(
   );
 }
 
-function getStaticSituation(
-  location: string | google.maps.LatLng,
-  params: GoogleStaticApiParams
-) {
-  const STATIC_API_URL: string =
-    'https://maps.googleapis.com/maps/api/staticmap?';
+function getStaticSituation(location: string | google.maps.LatLng, params: GoogleStaticApiParams) {
+  const STATIC_API_URL: string = 'https://maps.googleapis.com/maps/api/staticmap?';
   const API_KEY: string = process.env.GOOGLE_API_KEY;
   const _params: GoogleStaticApiParams = {
     zoom: params.zoom || 15, //Un valor normal es entre 12 y 20,
@@ -117,8 +112,7 @@ function getStaticSituation(
       'format=' + _params.format,
       'maptype=' + _params.maptype,
       'language=' + _params.language,
-      'markers=' +
-        encodeURI(['color:green', 'label:A', _params.center].join('|')),
+      'markers=' + encodeURI(['color:green', 'label:A', _params.center].join('|')),
       'key=' + API_KEY
     ].join('&')
   );
@@ -160,15 +154,10 @@ function suckDataFromGooglePlace(place: google.maps.places.PlaceResult) {
   return ExchangeObject;
 }
 
-function goggleImageAsALink(
-  place: google.maps.LatLng
-): Promise<GoogleStaticImagesCallback> {
+function goggleImageAsALink(place: google.maps.LatLng): Promise<GoogleStaticImagesCallback> {
   const url_map = getStaticSituation(place, GoogleStaticDefaultParams);
 
-  const url_street_view = getStreetViewStatic(
-    place,
-    StreetViewStaticDefaultParams
-  );
+  const url_street_view = getStreetViewStatic(place, StreetViewStaticDefaultParams);
 
   return new Promise((resolve, reject) => {
     _axios
@@ -179,14 +168,8 @@ function goggleImageAsALink(
       .then(
         _axios.spread((situation, streetView) => {
           const callback: GoogleStaticImagesCallback = {
-            situation: _imageEncode(
-              situation.data,
-              situation.headers['content-type']
-            ),
-            streetView: _imageEncode(
-              streetView.data,
-              streetView.headers['content-type']
-            )
+            situation: _imageEncode(situation.data, situation.headers['content-type']),
+            streetView: _imageEncode(streetView.data, streetView.headers['content-type'])
           };
           resolve(callback);
         })
@@ -195,20 +178,11 @@ function goggleImageAsALink(
 }
 
 function _imageEncode(arrayBuffer: ArrayBuffer, mimetype: string) {
-  let u8 = new Uint8Array(arrayBuffer),
-    b64encoded = btoa(
-      [].reduce.call(
-        new Uint8Array(arrayBuffer),
-        (p, c) => p + String.fromCharCode(c),
-        ''
-      )
-    );
+  // let u8 = new Uint8Array(arrayBuffer);
+  let b64encoded = btoa(
+    [].reduce.call(new Uint8Array(arrayBuffer), (p, c) => p + String.fromCharCode(c), '')
+  );
   return 'data:' + mimetype + ';base64,' + b64encoded;
 }
 
-export {
-  suckDataFromGooglePlace,
-  goggleImageAsALink,
-  getStaticSituation,
-  getStreetViewStatic
-};
+export { suckDataFromGooglePlace, goggleImageAsALink, getStaticSituation, getStreetViewStatic };

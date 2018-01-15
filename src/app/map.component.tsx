@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Sections from '../common/pageSections';
 import { CatastroSimplifiedElement } from '../model/CatastroSimplifiedElement';
-import { suckDataFromGooglePlace, goggleImageAsALink } from '../api/maps';
+import { goggleImageAsALink } from '../api/maps';
 import { _CaptchaApi } from '../api/captcha.api';
 import { _CatastroApi } from '../api/catastro.api';
 import jump from 'jump.js';
@@ -104,10 +104,9 @@ export class Map extends React.Component<Props, State> {
       }
     });
 
-    this.autocomplete = new google.maps.places.Autocomplete(
-      this.refs.autocomplete_input,
-      { types: ['geocode'] }
-    );
+    this.autocomplete = new google.maps.places.Autocomplete(this.refs.autocomplete_input, {
+      types: ['geocode']
+    });
 
     this.autocomplete.addListener('place_changed', this.fillInAddress);
   }
@@ -156,7 +155,7 @@ export class Map extends React.Component<Props, State> {
       goggleImageAsALink(place).then(
         googleStaticLinks => {
           const info_window_content = `
-          <div class="title is-6">${_title}</div> 
+          <div class="title is-6">${_title}</div>
           ${this.renderStatic(googleStaticLinks.situation)}
           ${this.renderStreetView(googleStaticLinks.streetView)}`;
 
@@ -212,24 +211,24 @@ export class Map extends React.Component<Props, State> {
   }
 
   private renderStatic(url: string) {
-    return `<a href="${url}" 
-				download="${this.state.place.formatted_address}_SIT.jpg" 
+    return `<a href="${url}"
+				download="${this.state.place.formatted_address}_SIT.jpg"
 				target="_blank" class="button is-primary">
 				<span class="icon is-small">
 		 			 <i class="fa fa-map-marker"></i>
 				</span>
-				<span>Mapa situación</span>						
+				<span>Mapa situación</span>
 	 		 </a>`;
   }
 
   private renderStreetView(url: string) {
-    return `<a href="${url}" 
-				download="${this.state.place.formatted_address}_FACHADA.jpg" 
+    return `<a href="${url}"
+				download="${this.state.place.formatted_address}_FACHADA.jpg"
 				target="_blank" class="button is-info">
 				<span class="icon is-small">
 		 			 <i class="fa fa-camera"></i>
 				</span>
-				<span>Foto fachada</span>						
+				<span>Foto fachada</span>
 	 		 </a>`;
   }
 
@@ -257,10 +256,7 @@ export class Map extends React.Component<Props, State> {
         <div ref="map" key="map" className={[theme.container, theme.map].join(' ')} />
         <div className={[theme.form_wrapper].join(' ')}>
           <div
-            className={[
-              theme.input_wrapper,
-              this.isLoadingWrapper(this.state.isLoading)
-            ].join(' ')}
+            className={[theme.input_wrapper, this.isLoadingWrapper(this.state.isLoading)].join(' ')}
           >
             <input
               disabled={this.state.disableForm}

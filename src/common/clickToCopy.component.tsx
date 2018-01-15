@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 function selectAndCopyOnClick(event) {
   event.stopPropagation();
   event.preventDefault();
