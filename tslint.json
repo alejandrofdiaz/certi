@@ -6,7 +6,7 @@
     "no-unused-variable": [true],
     "no-unused-expression": [true],
     "quotemark": {
-      "options": ["single", "avoid-escape"]
+      "options": ["single", "avoid-escape", "jsx-double"]
     }
   }
 }

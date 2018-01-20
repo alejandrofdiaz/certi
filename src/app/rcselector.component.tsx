@@ -42,16 +42,11 @@ function RCSelector(props: Props) {
           <div className={theme.container}>
             <h1 className={theme.containerTitle}>Selección de parcela</h1>
             <h2 className={theme.containerSubtitle}>
-              A continuación aparecerán los elementos cercanos al punto seleccionado en el
-              mapa. Se encuentran ordenados por la distancia al punto seleccionado.
+              A continuación aparecerán los elementos cercanos al punto seleccionado en el mapa. Se
+              encuentran ordenados por la distancia al punto seleccionado.
             </h2>
             {props.CatastroElements.map((item, i) => (
-              <article
-                key={i}
-                className={theme.element}
-                onClick={selectRC(item)}
-                role="button"
-              >
+              <article key={i} className={theme.element} onClick={selectRC(item)} role="button">
                 <div className={theme.elementContent}>
                   <h5 className={theme.elementTitle}>
                     <span className={theme.elementDistance}>
