@@ -15,9 +15,9 @@ module.exports = {
   },
   entry: {
     app: './src/index.tsx',
+    etiqueta: './src/etiqueta.tsx',
     vendor: ['react', 'react-dom', 'babel-polyfill', 'axios'],
     style: ['./src/styles', './node_modules/font-awesome/scss/font-awesome.scss']
-    // eeStyles: ['./ws/etiqueta_rendering/_etiquetaEnergetica.scss']
   },
   output: {
     path: path.join(basePath, 'dist'),
@@ -80,7 +80,15 @@ module.exports = {
       template: './src/index.ejs', //Name of template in ./src
       hash: true,
       favicon: 'favicon.ico',
-      excludeChunks: ['eeStyles']
+      excludeChunks: ['etiqueta']
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'etiquetaIndex.html', //Name of file in ./dist/
+      template: './src/etiquetaIndex.html', //Name of template in ./src
+      hash: true,
+      chunksSortMode: 'dependency',
+      favicon: 'favicon.ico',
+      excludeChunks: ['app']
     }),
     // new HtmlWebpackPlugin({
     //   filename: 'etiquetaEn.html',
@@ -92,9 +100,9 @@ module.exports = {
     new webpack.ProvidePlugin({
       axios: 'axios'
     }),
-    new webpack.optimize.CommonsChunkPlugin({
-      names: ['manifest', 'bootstrap', 'vendor', 'app'].reverse()
-    }),
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   names: ['manifest', 'vendor', 'app'].reverse()
+    // }),
     new CopyWebpackPlugin([
       {
         from: 'src/assets',

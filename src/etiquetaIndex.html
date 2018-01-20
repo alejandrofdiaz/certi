@@ -8,31 +8,21 @@
         content="IE=edge,chrome=1">
   <title></title>
   <meta name="description"
-        content="Certi">
+        content="Etiqueta Certificación">
   <meta name="viewport"
         content="width=device-width, initial-scale=1">
   <script src='https://www.google.com/recaptcha/api.js'></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=<%= process.env.GOOGLE_API_KEY %>&libraries=places"></script>
 </head>
 
 <body>
-  <div id="notification-alert"
-       class="notification is-danger header-warning">
-    <button class="delete"
-            id="notification-alert-dismiss"></button>
-    El servicio del
-    <u>catastro</u> es
-    <b>ajeno a esta web</b>, por lo tanto podría verse interrumpido alguno de sus servicios a lo largo del día y en determinados días de la semana. Normalmente la captura de datos no protegidos del catastro está disponible en
-    <u>horario laboral de lunes a viernes</u>.
-  </div>
   <nav class="navbar is-transparent fixed"
        role="navigation"
        aria-label="main navigation">
     <div class="navbar-brand">
       <a class="navbar-item"
-         href="http://bulma.io">
+         href="index.html">
         <img src="./assets/logo.png"
-             alt="Bulma: a modern CSS framework based on Flexbox"
+             alt="CertiLogo"
              width="112"
              height="28">
       </a>
@@ -53,8 +43,6 @@
          data-target="address_form">Datos</a>
       <a class="navbar-item"
          id="pdf_link"
-         href="etiquetaIndex.html"
-         target="_self"
          data-target="get_pdf">Etiqueta Energética</a>
       <a class="navbar-item"
          id="contact_link"
@@ -67,48 +55,18 @@
     <div class="hero-body">
       <div class="container">
         <h1 class="title has-text-centered">
-          Comienza tus certificados energéticos con fuerza, la fuerza de certi. </h1>
+          Descárgate la etiqueta energética </h1>
         <h2 class="subtitle has-text-centered">
-          Certi te permite obtener datos suficientes de forma automática para comenzar a realizar el certificado energético.
+          Certi te permite descargar el pdf de la etiqueta energética a partir del XML del certificado.
         </h2>
-        <h3 class="subtitle center">
+        <!-- <h3 class="subtitle center">
           <a id="init_form"
              class="button is-primary is-inverted is-outlined is-large">Inicio</a>
-        </h3>
+        </h3> -->
       </div>
     </div>
   </section>
-  <section class="hero is-dark">
-    <div class="hero-body">
-      <nav class="level">
-        <div class="level-item has-text-centered">
-          <div>
-            <p class="heading">Catastro</p>
-            <p class="title">
-              <i class="fa fa-building"
-                 aria-hidden="true"></i>
-            </p>
-          </div>
-        </div>
-        <div class="level-item has-text-centered">
-          <div>
-            <p class="heading">Google Maps</p>
-            <p class="title">
-              <i class="fa fa-google"
-                 aria-hidden="true"></i>
-            </p>
-          </div>
-        </div>
-        <div class="level-item has-text-centered">
-          <div>
-            <p class="heading">Usuarios</p>
-            <p class="title">456K</p>
-          </div>
-        </div>
-      </nav>
-    </div>
-  </section>
-  <div id="app">
+  <div id="pdf_form">
   </div>
   <section id="contact"
            class="hero is-dark is-medium">

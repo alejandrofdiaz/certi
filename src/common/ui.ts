@@ -38,21 +38,23 @@ document.addEventListener('DOMContentLoaded', function() {
   /**
    * Init Button
    */
-  const INIT_LINK = 'init_form',
-    ADDRESS_FROM = 'address_form',
-    initButton: HTMLElement = document.getElementById(INIT_LINK);
+  const INIT_LINK = 'init_form';
+  const ADDRESS_FROM = 'address_form';
+  const initButton: HTMLElement = document.getElementById(INIT_LINK);
 
-  initButton.addEventListener('click', () => {
-    jump(`#${ADDRESS_FROM}`);
-  });
+  if (initButton)
+    initButton.addEventListener('click', () => {
+      jump(`#${ADDRESS_FROM}`);
+    });
 
   /**
    * Dismiss Alert button binding
    */
   const ALERT_DISMISS_ID = 'notification-alert-dismiss';
   const dissmissAlertButton = document.getElementById(ALERT_DISMISS_ID);
-
-  dissmissAlertButton.onclick = dissmissAlerNotification;
+  if (!!dissmissAlertButton) {
+    dissmissAlertButton.onclick = dissmissAlerNotification;
+  }
 });
 
 function dissmissAlerNotification() {

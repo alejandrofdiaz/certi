@@ -1,9 +1,15 @@
 import * as React from 'react';
+
 import Sections from '../common/pageSections';
 import { CatastroSimplifiedElement } from '../model/CatastroSimplifiedElement';
+
 import { goggleImageAsALink } from '../api/maps';
 import { _CaptchaApi } from '../api/captcha.api';
 import { _CatastroApi } from '../api/catastro.api';
+
+import Captcha from './captcha.component';
+const GOOGLE_CAPTCHA_KEY = process.env.GOOGLE_CAPTCHA_KEY;
+
 import jump from 'jump.js';
 
 interface theme {
@@ -236,18 +242,9 @@ export class Map extends React.Component<Props, State> {
   }
 
   render() {
-    const Captcha = () => {
-      if (this.state && this.state.disableForm) {
-        return (
-          <div
-            key="recaptcha"
-            className={theme.captcha}
-            data-sitekey={process.env.GOOGLE_CAPTCHA_KEY}
-            data-callback="captchaSuccess"
-            data-expired-callback="captchaExpired"
-          />
-        );
-      } else return null;
+    const Captcha_ = () => {
+      const isVisible = this.state && this.state.disableForm;
+      return <Captcha active={isVisible} className={theme.captcha} siteKey={GOOGLE_CAPTCHA_KEY} />;
     };
 
     return (
@@ -268,7 +265,7 @@ export class Map extends React.Component<Props, State> {
             />
           </div>
 
-          <Captcha />
+          <Captcha_ />
         </div>
       </section>
     );
