@@ -161,8 +161,8 @@ export class Map extends React.Component<Props, State> {
         googleStaticLinks => {
           const info_window_content = `
           <div class="title is-6">${_title}</div>
-          ${this.renderStatic(googleStaticLinks.situation)}
-          ${this.renderStreetView(googleStaticLinks.streetView)}`;
+          ${this.renderStatic(googleStaticLinks.situation, _title)}
+          ${this.renderStreetView(googleStaticLinks.streetView, _title)}`;
 
           let infoWindow = this.createInfoWindow(info_window_content);
           const marker = this.createMarker(place, function() {
@@ -215,9 +215,9 @@ export class Map extends React.Component<Props, State> {
     this.setState({ disableForm: false });
   }
 
-  private renderStatic(url: string) {
+  private renderStatic(url: string, name: string) {
     return `<a href="${url}"
-				download="${this.state.place.formatted_address}_SIT.jpg"
+				download="${name}_SIT.jpg"
 				target="_blank" class="button is-primary">
 				<span class="icon is-small">
 		 			 <i class="fa fa-map-marker"></i>
@@ -226,9 +226,9 @@ export class Map extends React.Component<Props, State> {
 	 		 </a>`;
   }
 
-  private renderStreetView(url: string) {
+  private renderStreetView(url: string, name: string) {
     return `<a href="${url}"
-				download="${this.state.place.formatted_address}_FACHADA.jpg"
+				download="${name}_FACHADA.jpg"
 				target="_blank" class="button is-info">
 				<span class="icon is-small">
 		 			 <i class="fa fa-camera"></i>
