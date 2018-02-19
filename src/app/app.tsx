@@ -1,9 +1,23 @@
+/**
+ * Libraries
+ */
 import * as React from 'react';
-// import AddressForm from './address.component';
+
+/**
+ * Components
+ */
 import { Map } from './map.component';
 import { RCSelector } from './rcselector.component';
 
+/**
+ * Models
+ */
 import { CatastroSimplifiedElement } from '../model/CatastroSimplifiedElement';
+
+/**
+ * Constants
+ */
+const GOOGLE_CAPTCHA_KEY = process.env.GOOGLE_CAPTCHA_KEY;
 
 interface AppState {
   catastroSelectableElements: CatastroSimplifiedElement[];
@@ -27,18 +41,15 @@ export default class App extends React.Component<{}, AppState> {
   render() {
     return (
       <div className="app_container">
-        <Map setCatastroElements={this.selectCatastroElements.bind(this)} />
+        <Map
+          setCatastroElements={this.selectCatastroElements.bind(this)}
+          siteKey={GOOGLE_CAPTCHA_KEY}
+          country={'ES'}
+        />
         <RCSelector
           SelectRC={console.log}
           CatastroElements={this.state.catastroSelectableElements}
         />
-        {/* <section className='hero'>
-					<div className='hero-body'>
-						<div className='container'>
-							<AddressForm />
-						</div>
-					</div>
-				</section> */}
       </div>
     );
   }

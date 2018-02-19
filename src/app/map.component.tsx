@@ -8,7 +8,6 @@ import { _CaptchaApi } from '../api/captcha.api';
 import { _CatastroApi } from '../api/catastro.api';
 
 import Captcha from './captcha.component';
-const GOOGLE_CAPTCHA_KEY = process.env.GOOGLE_CAPTCHA_KEY;
 
 import jump from 'jump.js';
 
@@ -43,12 +42,15 @@ interface State {
 
 interface Props {
   setCatastroElements: (elements: CatastroSimplifiedElement[]) => void;
+  siteKey: string;
+  country?: string;
 }
 
 export class Map extends React.Component<Props, State> {
   map: google.maps.Map;
   autocomplete: google.maps.places.Autocomplete;
   markers: google.maps.Marker[];
+  country: string;
   refs: {
     map: any;
     autocomplete_input: any;
@@ -56,13 +58,18 @@ export class Map extends React.Component<Props, State> {
 
   constructor(props) {
     super(props);
+
     this.markers = [];
+    this.country = !!this.props.country ? this.props.country : null;
+
     this.state = {
       isLoading: false,
       address: '',
       place: null,
       disableForm: true
     };
+
+
 
     this.fillInAddress = this.fillInAddress.bind(this);
     this.createMarker = this.createMarker.bind(this);
@@ -85,7 +92,7 @@ export class Map extends React.Component<Props, State> {
               this.disableForm();
             }
           },
-          response => {}
+          response => { }
         )
         .then(() => {
           this.setLoading(false);
@@ -110,7 +117,8 @@ export class Map extends React.Component<Props, State> {
     });
 
     this.autocomplete = new google.maps.places.Autocomplete(this.refs.autocomplete_input, {
-      types: ['geocode']
+      types: ['geocode'],
+      componentRestrictions: { country: this.country }
     });
 
     this.autocomplete.addListener('place_changed', this.fillInAddress);
@@ -165,7 +173,7 @@ export class Map extends React.Component<Props, State> {
           ${this.renderStreetView(googleStaticLinks.streetView, _title)}`;
 
           let infoWindow = this.createInfoWindow(info_window_content);
-          const marker = this.createMarker(place, function() {
+          const marker = this.createMarker(place, function () {
             infoWindow.open(this.map, marker);
           });
 
@@ -203,7 +211,7 @@ export class Map extends React.Component<Props, State> {
         this.props.setCatastroElements(data);
         jump(`#${Sections.rc_selector}`);
       },
-      response => {}
+      response => { }
     );
   }
 
@@ -244,7 +252,7 @@ export class Map extends React.Component<Props, State> {
   render() {
     const Captcha_ = () => {
       const isVisible = this.state && this.state.disableForm;
-      return <Captcha active={isVisible} className={theme.captcha} siteKey={GOOGLE_CAPTCHA_KEY} />;
+      return <Captcha active={isVisible} className={theme.captcha} siteKey={this.props.siteKey} />;
     };
 
     return (
