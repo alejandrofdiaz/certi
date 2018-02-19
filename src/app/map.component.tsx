@@ -209,7 +209,7 @@ export class Map extends React.Component<Props, State> {
     _CatastroApi.getReferencias(lat, long).then(
       data => {
         this.props.setCatastroElements(data);
-        jump(`#${Sections.rc_selector}`);
+        if (!!data.length) jump(`#${Sections.rc_selector}`);
       },
       response => { }
     );
