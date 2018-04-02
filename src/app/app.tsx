@@ -26,7 +26,7 @@ interface AppState {
 
 export default class App extends React.Component<{}, AppState> {
   constructor() {
-    super();
+    super({});
 
     this.state = {
       catastroSelectableElements: [],

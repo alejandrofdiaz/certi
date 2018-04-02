@@ -4,6 +4,7 @@
     "jsx": "preserve",
     "target": "es6",
     "module": "es6",
+    "sourceMap": true,
     "moduleResolution": "node",
     "typeRoots": [
       "./node_modules/@types"
